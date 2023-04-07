@@ -1,0 +1,56 @@
+
+.header-frame{
+    width: 100%;
+    font-family: 'bold';
+    height: 63px;
+    background-color: #2493FA;
+
+}
+.header-list{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 63px;
+}
+.header-leftSide-list{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 50px;
+}
+.header-leftSide-menu{
+    font-size: 23px;
+    color: #FFF;
+}
+.header-rightSide-list{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 50px;
+}
+.header-rightSide-menu{
+    font-size: 23px;
+    color: #FFF;
+}
+.header-title{
+    color: #FFF;
+    font-size: 30px;
+}
+.btn{
+    background-color: #FFF;
+    color: black;
+    border-radius: 40px;
+    font-size: 15px;
+    padding: 10px 21px;
+}
+.thin{
+    font-family: 'thin';
+}
+.searchIcon{
+    width: 23px;
+    height: 23px;
+}
