@@ -1,0 +1,24 @@
+.contentsOuterFrame{
+    padding-left: 116px;
+    padding-right: 116px;
+    padding-bottom: 150px;
+}
+.contentsTitle{
+    max-width: 1048px;
+    background-color: #B9CFFE;
+    font-family: thin;
+    font-size: 30px;
+    text-align: end;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    padding-right: 30px;
+    border-radius: 10px;
+    
+}
+.contentsGroupFrame{
+    padding-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    
+}
