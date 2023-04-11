@@ -16,9 +16,19 @@
     
 }
 .contentsGroupFrame{
-    padding-top: 40px;
     display: flex;
     flex-direction: column;
     gap: 20px;
     
+}
+.contentsInnerFrame{
+    display: flex;
+    flex-direction: column;
+    gap: 47px;
+}
+.buttonFrame{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: end;
 }
