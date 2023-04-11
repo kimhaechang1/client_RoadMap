@@ -1,6 +1,8 @@
+import TourList from "../../components/tour/list";
+
 const TourPage = () =>{
     return (
-        <div>Tour페이지입니다.</div>
+        <TourList/>
     )
 }
 

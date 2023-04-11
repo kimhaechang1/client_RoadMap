@@ -1,0 +1,103 @@
+.contentViewFrame{
+    padding-left: 116px;
+    padding-right: 116px;
+    padding-bottom: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.contentViewTitleGroup{
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    border-bottom: 1px solid #D9D9D9;
+    padding-bottom: 14px;
+}
+.titleNickAndDay{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+.profileIcon{
+    width: 40px;
+    height: 40px;
+}
+.nick_day{
+    font-family: 'thin';
+    font-size: 25px;
+}
+.titleAndViews{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 35px;
+    font-family: 'bold';
+}
+.viewPoint{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    font-size:20px;
+    font-family: 'thin';
+}
+.viewIcon{
+    width: 30px;
+    height: 30px;
+}
+.contentViewMain{
+    font-size: 60px;
+    font-family: 'bold';
+    text-align: center;
+    padding : 479px 392px;
+}
+.contentViewCommentFrame{
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+.contentViewComment{
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    font-family: 'bold';
+    font-size: 30px;
+}
+.contentViewCommentWrite{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 19px;
+    border: 1px solid #D9D9D9;
+    border-radius: 20px;
+}
+.contentViewCommentWriteMain{
+    display: flex;
+    flex-direction: row;
+    gap: 36px;
+    
+}
+.contentViewCommentWriteMain textarea{
+    width: 912px;
+    max-width: 912px;
+    min-height: 100px;
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+}
+.buttonFrame{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+.contentViewComment{
+    display: flex;
+    flex-direction: column;
+    gap:30px;
+}
+.contentViewCommentMain{
+    display: flex;
+    flex-direction: column;
+    gap:30px;
+}

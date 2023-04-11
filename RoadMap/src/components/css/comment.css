@@ -1,0 +1,19 @@
+.commentGroup{
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    border-bottom: 1px solid #D9D9D9;
+    padding-bottom: 13px;
+}
+.commentTitleGroup{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    font-size: 20px;
+    font-family: 'thin';
+}
+.commentContextGroup{
+    font-size: 25px;
+    font-family: 'thin';
+}

@@ -1,0 +1,11 @@
+.ImageButton{
+    height: fit-content;
+    padding: 13px 53px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    border: 1px solid #D9D9D9;
+}
+.ImageButton img{
+    width: 20px;
+    height: 20px;
+}
