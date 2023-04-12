@@ -23,3 +23,15 @@ a{
     margin-right: auto;
     padding-top : 76px;
 }
+
+.flexCol{
+    display: flex;
+    flex-direction: column;
+}
+.flexRow{
+    display:flex;
+    flex-direction: row;
+}
+textarea{
+    resize:none;
+}

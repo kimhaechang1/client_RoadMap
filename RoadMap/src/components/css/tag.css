@@ -1,0 +1,13 @@
+.tag{
+    border-radius: 40px;
+    border: 1px solid #D9D9D9;
+    font-family: 'thin';
+    font-size:20px;
+    gap:10px;
+    padding: 6px 20px;
+    align-items: center;
+}
+.tag img{
+    width: 15px;
+    height: 15px;
+}

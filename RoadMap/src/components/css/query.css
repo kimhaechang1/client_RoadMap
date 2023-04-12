@@ -1,0 +1,12 @@
+.queryFrame{
+    font-size: 20px;
+    font-family: 'thin';
+    padding : 6px 20px;
+    text-align: center;
+    width: fit-content;
+    background-color: #FFFFFF;
+
+}
+.clicked{
+    border-color: #2493FA !important;
+}

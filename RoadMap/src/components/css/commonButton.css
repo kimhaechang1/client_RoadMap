@@ -18,3 +18,18 @@
     width: 20px;
     height: 20px;
 }
+
+.reject{
+    padding: 13px 42px;
+    font-family: 'thin';
+    font-size: 20px;
+    background-color: #FFFFFF;
+}
+.submit{
+    border-radius: 10px;
+    border: none;
+    padding: 13px 42px;
+    font-family: 'thin';
+    font-size: 20px;
+    background-color: #E6F4F1;
+}

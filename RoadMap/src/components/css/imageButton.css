@@ -9,3 +9,18 @@
     width: 20px;
     height: 20px;
 }
+.left{
+    padding-right: 20px !important;
+    padding-left: 23px !important;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.right{
+    padding-right: 23px !important;
+    padding-left: 20px !important;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.deleteRightBorder{
+    border-right: none;
+}
