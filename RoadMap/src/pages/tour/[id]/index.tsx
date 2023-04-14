@@ -1,4 +1,5 @@
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
+import { useEffect } from 'react';
 import CommonButton from '../../../components/common/button';
 import Comment from '../../../components/tour/comment';
 import '../../css/tour[id].css';
@@ -6,6 +7,13 @@ import profile from '../../../../public/profile.png';
 
 const TourItemPage = () =>{
     const { id } = useParams();
+    const navigate = useNavigate();
+    useEffect(()=>{
+        if(!id?.match(/[0-9]/g)){
+            navigate('/404');
+        }
+    },[id])
+
     return (
         <div className="contentViewFrame">
             <div className="contentViewTitleGroup">

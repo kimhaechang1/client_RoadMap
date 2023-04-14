@@ -9,6 +9,7 @@ import TourPage from './pages/tour';
 import TourItemPage from './pages/tour/[id]';
 import TourWritePage from './pages/tour/write';
 import NotFoundPage from './pages/NotFound';
+import MyPageLayout from './pages/mypage';
 
 export const routes = [
     {
@@ -17,8 +18,11 @@ export const routes = [
         children : [
             {path : '/', element : <MainPage/>, index:true},
             {path : '/login', element : <LoginPage/>, index:true},
-            {path : '/mypage/act', element : <ActPage/>, index:true},
-            {path : '/mypage/profile', element : <ProfilePage/>, index:true},
+            {path : '/mypage/:menuId', element : <MyPageLayout/>, index:true},
+            // {path : '/mypage/:menu', element : <MyPageLayout/>, children : [
+
+            // ]},
+            // {path : '/mypage/profile', element : <ProfilePage/>, index:true},
             {path : '/search', element : <SearchPage/>, index:true},
             {path : '/result', element : <SearchResultPage/>, index:true},
             {path : '/tour', element : <TourPage/>, index:true},

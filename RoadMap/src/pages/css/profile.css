@@ -1,0 +1,20 @@
+.elementGap{
+    gap:9px;
+}
+.profileContents{
+    gap: 40px;
+}
+.profileFrame{
+    padding-right: 50px;
+    gap: 70px;
+    font-family: 'thin';
+    padding-left: 50px;
+}
+.profileTitle{
+    font-size: 30px;
+}
+.inputFrame input{
+    padding: 13px 20px;
+    font-size: 14px;
+    font-family: 'thin';
+}

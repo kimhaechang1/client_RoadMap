@@ -1,0 +1,36 @@
+.actFrame{
+    padding-right: 50px;
+    gap: 70px;
+    font-family: 'thin';
+    padding-left: 50px;
+}
+.contents{
+    gap:14px;
+}
+.actTitle{
+    font-size: 30px;
+}
+.title{
+    font-family: 'bold';
+    font-size: 25px;
+}
+.actContent{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 14px;
+    min-width: 500px;
+    border-bottom: 1px solid #D9D9D9;
+}
+.contextIcon{
+    width: 30px;
+    height: 30px;
+}
+.view_comment{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    font-size: 20px;
+    font-family: 'thin';
+}
