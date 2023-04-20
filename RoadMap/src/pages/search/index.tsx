@@ -9,7 +9,7 @@ const SearchPage = ()=>{
         <div className="flexCol searchMainFrame">
             <div className="searchBodyFrame flexCol sectionGap">
                 <div className="flexCol innerGap">
-                    <div className="title">검색제목</div>
+                    <div className="queryTitle">검색제목</div>
                     <div className="searchBox flexRow">
                         <input type="text" className="border"></input>
                         <CommonButton imgSrc={"/search_black.png"}/>                        
@@ -17,13 +17,13 @@ const SearchPage = ()=>{
 
                 </div>
                 <div className="flexCol innerGap">
-                    <div className="title">검색직무</div>
+                    <div className="queryTitle">검색직무</div>
                     <div className="flexRow queryGap">
                         <QueryElement query={"한국인"}/>
                     </div>                    
                 </div>
                 <div className="flexCol innerGap">
-                    <div className="title">정렬기준</div>
+                    <div className="queryTitle">정렬기준</div>
                     <div className="flexRow queryGap">
                         <QueryElement query={"최신순"}/>
                         <QueryElement query={"조회순"}/>

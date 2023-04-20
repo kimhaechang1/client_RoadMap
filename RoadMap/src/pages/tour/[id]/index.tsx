@@ -18,8 +18,8 @@ const TourItemPage = () =>{
         <div className="contentViewFrame">
             <div className="contentViewTitleGroup">
                 <div className="titleNickAndDay">
-                    <img className="profileIcon" src="/profile.png"></img>
-                    <div className="nick_day">닉네임·작성날짜</div>                    
+                    <img className="tourViewProfileIcon" src="/profile.png"></img>
+                    <div className="tourViewNick_day">닉네임·작성날짜</div>                    
                 </div>
                 <div className="titleAndViews">
                     <div>글 제목</div>

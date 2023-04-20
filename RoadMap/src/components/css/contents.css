@@ -1,17 +1,16 @@
 .contentsOuterFrame{
-    padding-left: 116px;
-    padding-right: 116px;
+    padding: 0 60px;
     padding-bottom: 150px;
 }
 .contentsTitle{
     max-width: 1048px;
     background-color: #B9CFFE;
     font-family: thin;
-    font-size: 30px;
+    font-size: 23px;
     text-align: end;
     padding-top: 13px;
     padding-bottom: 13px;
-    padding-right: 30px;
+    padding-right: 13px;
     border-radius: 10px;
     
 }
@@ -31,4 +30,27 @@
     flex-direction: row;
     width: 100%;
     justify-content: end;
+}
+@media (max-width: 428px){
+    .contentsTitle{
+        font-size: 18px;
+        padding-left: 13px;
+        text-align: center;
+    }
+    .contentsOuterFrame{
+        min-width: 0px;
+        padding: 0 40px;
+        padding-bottom: 150px;
+    }
+}
+@media (min-width : 635px){
+    .contentsOuterFrame{
+        min-width: 400px;
+        padding: 0 116px;
+        padding-bottom: 150px;
+    }
+    .contentsTitle{
+        font-size: 30px;
+        padding-right: 30px;
+    }
 }

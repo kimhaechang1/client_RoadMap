@@ -1,4 +1,5 @@
 import '../css/contents.css';
+
 import BookSlider from './bookSlider';
 
 const TopTenBooks = () =>{

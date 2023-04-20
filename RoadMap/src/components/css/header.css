@@ -11,10 +11,15 @@
     justify-content: space-between;
     flex-direction: row;
     align-items: center;
-    max-width: 1280px;
     margin-left: auto;
     margin-right: auto;
+    max-width: 1280px;
+    padding: 0 16px;
     height: 63px;
+}
+.header-title{
+    color: #FFF;
+    font-size: 30px;
 }
 .header-leftSide-list{
     display: flex;
@@ -25,21 +30,19 @@
 .header-leftSide-menu{
     font-size: 23px;
     color: #FFF;
+    display: none;
 }
 .header-rightSide-list{
-    display: flex;
     flex-direction: row;
     align-items: center;
     gap: 50px;
+    display: none;
 }
 .header-rightSide-menu{
     font-size: 23px;
     color: #FFF;
 }
-.header-title{
-    color: #FFF;
-    font-size: 30px;
-}
+
 .btn{
     background-color: #FFF;
     color: black;
@@ -54,3 +57,66 @@
     width: 23px;
     height: 23px;
 }
+.header-mobile-icon{
+    display: block;
+    width : 40px;
+    height: 40px;
+    cursor: pointer;
+}
+@media (min-width : 635px){
+    .header-list{
+        padding : 0 32px;
+    }
+    .header-rightSide-list{
+        display: flex;
+    }
+    .header-leftSide-menu{
+        display: block;
+    }
+    .header-mobile-Frame{
+        display: none;
+    }
+
+}
+.dropDownMenuFrame{
+    right: 0px;
+    position: absolute;
+    z-index: 100;
+    padding: 15px;
+    background-color: #FFF;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.15), 
+              0 2px 2px rgba(0,0,0,0.15), 
+              0 4px 4px rgba(0,0,0,0.15), 
+              0 8px 8px rgba(0,0,0,0.15);
+
+}
+.dropDownMenu{
+    cursor: pointer;
+    padding: 5px 10px;
+}
+.dropDownMenu:hover{
+    background-color: #2493FA;
+    color: #FFF;
+}
+a{
+    color: black;
+    text-decoration: none;
+}
+/* @media (max-width : 1299px){
+    .header-list{
+        max-width : 1024px;
+    }
+    .header-title{
+        font-size: 30px;
+    }
+}
+@media (max-width : 1044px){
+    .header-list{
+        max-width: max-content;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+    .header-title{
+        font-size: 24px;
+    }
+} */

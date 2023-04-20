@@ -8,11 +8,11 @@ const ActPage = () =>{
                 {Array.from({length:5}).map((_,i)=>{
                     return(
                     <div className="actContent">
-                        <div className="title">글제목</div>
-                        <div className="view_comment">
-                            <img className="contextIcon" src="/eye.png"></img>
+                        <div className="actContentTitle">글제목</div>
+                        <div className="actView_comment">
+                            <img className="actContextIcon" src="/eye.png"></img>
                             <div>0</div>
-                            <img className="contextIcon" src="/comment.png"></img>
+                            <img className="actContextIcon" src="/comment.png"></img>
                             <div>0</div>
                         </div>
                     </div>

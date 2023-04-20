@@ -9,12 +9,12 @@ const Content = () =>{
             </div>
             
             <div className="contentContextGroup">
-                <div className="title">글제목</div>
+                <div className="title">제목이최대몇자까지일까라고생각할때면누군가가나에게말했지</div>
                 <div className="view_comment">
-                    <img className="contextIcon" src="./eye.png"></img>
-                    <div>0</div>
-                    <img className="contextIcon" src="./comment.png"></img>
-                    <div>0</div>
+                    <img className="contextIcon eye" src="./eye.png"></img>
+                    <div className="eye">0</div>
+                    <img className="contextIcon comment" src="./comment.png"></img>
+                    <div className="comment">0</div>
                 </div>
             </div>
         </div>

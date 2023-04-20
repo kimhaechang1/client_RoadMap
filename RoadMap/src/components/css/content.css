@@ -17,26 +17,62 @@
 }
 .nick_day{
     font-family: 'thin';
+    font-size: 17px;
+}
+.title{
+    font-family: 'bold';
+    font-size: 15px;
+    white-space : nowrap;
+    overflow : hidden;
+    text-overflow : ellipsis;
+}
+/* .nick_day{
+    font-family: 'thin';
     font-size: 20px;
 }
 .title{
     font-family: 'bold';
     font-size: 25px;
-}
+} */
 .contentContextGroup{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 .contextIcon{
-    width: 30px;
-    height: 30px;
+    width: 18px;
+    height: 18px;
 }
 .view_comment{
     align-items: center;
     display: flex;
     flex-direction: row;
     gap: 20px;
-    font-size: 20px;
+    font-size: 18px;
     font-family: 'thin';
+}
+.eye{
+    display: none;
+}
+@media (min-width : 635px){ 
+    .nick_day{
+        font-size: 20px;
+    }
+    .contextIcon{
+        width: 30px;
+        height: 30px;
+    }
+    .profileIcon{
+        width: 50px;
+        height: 50px;
+    }
+    .view_comment{
+        font-size: 20px;
+    }
+    .title{
+        font-size: 25px;
+    }
+    .eye{
+        display: block;
+    }
 }

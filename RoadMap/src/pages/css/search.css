@@ -1,6 +1,6 @@
 .searchMainFrame{
-    padding-left: 116px;
-    padding-right: 116px;
+    min-width: 400px;
+    padding: 0 116px;
     padding-bottom: 150px;
 }
 .searchBodyFrame{
@@ -45,7 +45,7 @@
 .border{
     border: 1px solid #D9D9D9;
 }
-.title{
+.queryTitle{
     font-size: 20px;
     font-family: 'thin';
 }

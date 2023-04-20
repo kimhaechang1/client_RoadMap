@@ -19,11 +19,11 @@
     gap: 10px;
     align-items: center;
 }
-.profileIcon{
+.tourViewProfileIcon{
     width: 40px;
     height: 40px;
 }
-.nick_day{
+.tourViewNick_day{
     font-family: 'thin';
     font-size: 25px;
 }
