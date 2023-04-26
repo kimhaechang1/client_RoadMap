@@ -11,7 +11,7 @@ const Header = () =>{
     }
 
     return (
-        <div className="header-frame">
+        <div id ="header"className="header-frame">
             <div className="header-list">
                 <div className="header-leftSide-list">
                     <Link to="/"><div className="header-title">로드맵</div></Link>
@@ -23,7 +23,7 @@ const Header = () =>{
                     <Link to="/login"><div className="header-rightSide-menu btn">회원가입</div></Link>
                 </div>
                 <div className="header-mobile-Frame">
-                    <img onClick={dropdownMenuToggle} className="header-mobile-icon" src="/book.png"></img>
+                    <img onClick={dropdownMenuToggle} className="header-mobile-icon" src="/hamberger_WHITE.png"></img>
                     {dropdownShown ? <div className="dropDownMenuFrame">
                         <div className="dropDownMenuList">
                             <Link to="/search"><div className="dropDownMenu">검색하기</div></Link>

@@ -1,0 +1,72 @@
+.roadContentFrame{
+    display: flex;
+    flex-direction: column;
+}
+.leftWidth{
+    
+}
+.bookFrame{
+    padding: 53px 30px;
+    align-items: center;
+    justify-content: center;
+    font-family: 'thin';
+    border:1px solid #D9D9D9;
+    border-radius: 10px;
+    gap: 25px;
+}
+.book{
+    width: fit-content;
+    height: fit-content;
+    gap: 17px;
+}
+.book div{
+    max-width: 140px;
+    font-size: 17px;
+}
+.bookWriter img{
+    width : 120px;
+    height: 120px;
+}
+.roadContentTimeline{
+    font-size: 17px;
+    font-family: 'thin';
+    padding: 10px;
+}
+.bookWriterCtx{
+    align-items: center;
+    justify-content: center;
+}
+.roadContext{
+    padding: 10px;
+    font-family: 'thin';
+    font-size: 15px !important;
+    min-height: 200px;
+}
+.roadButtonFrame{
+    justify-content: end;
+}
+@media (min-width : 635px){
+    .roadContentTimeline{
+        font-size: 20px;
+        padding: 13px 20px;
+    }
+    .roadContext{
+        
+        padding: 13px 20px;
+        font-size: 20px;
+    }
+    .leftWidth{
+        min-width: 300px;
+    }
+}
+@media (min-width : 1048px){
+    .roadContext{
+        width:100%;
+    }
+    .roadContentFrame{
+        flex-direction: row;
+    }
+    .roadMapContextWriter{
+        width: 602px;
+    }
+}

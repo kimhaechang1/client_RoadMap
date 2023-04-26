@@ -1,8 +1,9 @@
 .tag{
+    min-width: fit-content;
     border-radius: 40px;
     border: 1px solid #D9D9D9;
     font-family: 'thin';
-    font-size:20px;
+    font-size:15px;
     gap:10px;
     padding: 6px 20px;
     align-items: center;
@@ -10,4 +11,9 @@
 .tag img{
     width: 15px;
     height: 15px;
+}
+@media (min-width : 1048px){
+    .tag{
+        font-size: 20px;
+    }
 }

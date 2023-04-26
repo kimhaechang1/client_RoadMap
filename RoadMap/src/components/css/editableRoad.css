@@ -1,0 +1,47 @@
+.roadContentFrame{
+    display: flex;
+    flex-direction: column;
+}
+.leftWidth{
+    
+}
+.bookWriter{
+    padding: 53px 30px;
+    align-items: center;
+    justify-content: center;
+    font-family: 'thin';
+    border:1px solid #D9D9D9;
+    border-radius: 10px;
+    gap: 25px;
+}
+.bookWriter img{
+    width : 120px;
+    height: 120px;
+}
+.bookWriterCtx{
+    align-items: center;
+    justify-content: center;
+}
+.roadMapContextWriter{
+    font-size: 15px !important;
+    min-height: 200px;
+}
+.roadButtonFrame{
+    justify-content: end;
+}
+@media (min-width : 635px){
+    .roadMapContextWriter{
+        font-size: 20px;
+    }
+    .leftWidth{
+        min-width: 300px;
+    }
+}
+@media (min-width : 1048px){
+    .roadContentFrame{
+        flex-direction: row;
+    }
+    .roadMapContextWriter{
+        width: 602px;
+    }
+}

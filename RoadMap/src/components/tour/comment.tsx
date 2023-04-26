@@ -5,7 +5,7 @@ const Comment = () =>{
         <div className="commentGroup">
             <div className="commentTitleGroup">
                 <img className="profileIcon" src="/profile.png"></img>
-                <div>닉네임·작성날짜</div>
+                <div className="commentNick_day">닉네임·작성날짜</div>
             </div>
             
             <div className="commentContextGroup">

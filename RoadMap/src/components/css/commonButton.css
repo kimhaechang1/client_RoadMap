@@ -35,22 +35,41 @@
     background-color: #E6F4F1;
 }
 .circleButton{
+    font-family: 'bold';
     border-radius: 50%;
     padding: 13px;
     background-color: #b9cffe;
     border: none;
     width: fit-content;
     cursor: pointer;
+    scroll-behavior: smooth;
+}
+.goTop{
+    position: fixed;
+    bottom: 150px;
 }
 .fixed{
     position: fixed;
-    right: 15px;
     top: 80px;
+}
+.rightSidefromScroll{
+    right: 15px;
 }
 @media (min-width : 635px){
     .fixed{
-        position: fixed;
-        right: 280px;
         top: 150px;
+        position: fixed;
+    }
+    .rightSidefromScroll{
+        right: 80px;
+    }
+}
+@media (min-width : 1630px){
+    .fixed{
+        top: 150px;
+    }
+    .rightSidefromScroll{
+        right: 80px;
+        right: 280px;
     }
 }

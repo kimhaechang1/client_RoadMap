@@ -18,13 +18,13 @@ const SearchPage = ()=>{
                 </div>
                 <div className="flexCol innerGap">
                     <div className="queryTitle">검색직무</div>
-                    <div className="flexRow queryGap">
+                    <div className="flexRow queryGap wrap">
                         <QueryElement query={"한국인"}/>
                     </div>                    
                 </div>
                 <div className="flexCol innerGap">
                     <div className="queryTitle">정렬기준</div>
-                    <div className="flexRow queryGap">
+                    <div className="flexRow queryGap wrap">
                         <QueryElement query={"최신순"}/>
                         <QueryElement query={"조회순"}/>
                     </div>                    
@@ -41,11 +41,12 @@ const SearchPage = ()=>{
                         )
                     })}
                     </div>
-                    
                 </div>
             </div>
+            <a href="#header" className="circleButton goTop rightSidefromScroll">
+                Up
+            </a>
         </div>
-        // <Contents>
     )
 }
 

@@ -1,10 +1,10 @@
 import '../css/tag.css';
 
-const Tag = ({tagName} : {tagName : string}) =>{
+const Tag = ({tagName, isDel = true} : {tagName : string, isDel? : boolean}) =>{
     return(
         <div className="tag flexRow">
             {tagName}
-            <img src="/gob.png"></img>
+            {isDel ? <img src="/gob.png"></img> : null}
         </div>
     )
 }

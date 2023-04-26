@@ -1,6 +1,5 @@
 .contentViewFrame{
-    padding-left: 116px;
-    padding-right: 116px;
+    padding :0 60px;
     padding-bottom: 150px;
     display: flex;
     flex-direction: column;
@@ -20,20 +19,30 @@
     align-items: center;
 }
 .tourViewProfileIcon{
-    width: 40px;
-    height: 40px;
+    display: none;
 }
-.tourViewNick_day{
+.tourViewNick_day_buttons{
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
     font-family: 'thin';
-    font-size: 25px;
+    font-size: 15px;
 }
 .titleAndViews{
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    font-size: 35px;
     font-family: 'bold';
+}
+.tourViewTitle{
+    font-size: 17px;
+    white-space : nowrap;
+    overflow : hidden;
+    text-overflow : ellipsis;
+}
+.tourViewButtonFrame{
+    justify-content: end;
 }
 .viewPoint{
     display: flex;
@@ -51,7 +60,7 @@
     font-size: 60px;
     font-family: 'bold';
     text-align: center;
-    padding : 479px 392px;
+    /* padding : 479px 392px; */
 }
 .contentViewCommentFrame{
     display: flex;
@@ -63,7 +72,7 @@
     flex-direction: column;
     gap: 35px;
     font-family: 'bold';
-    font-size: 30px;
+    font-size: 17px;
 }
 .contentViewCommentWrite{
     padding: 20px;
@@ -79,12 +88,18 @@
     gap: 36px;
     
 }
+.contentViewCommentWriteMain img{
+    display:none;
+}
 .contentViewCommentWriteMain textarea{
     width: 912px;
     max-width: 912px;
     min-height: 100px;
     border: 1px solid #D9D9D9;
     border-radius: 10px;
+    padding: 6px;
+    font-size: 17px;
+    font-family: 'thin';
 }
 .buttonFrame{
     display: flex;
@@ -100,4 +115,127 @@
     display: flex;
     flex-direction: column;
     gap:30px;
+}
+@media (max-width: 428px){
+    .contentViewFrame {
+        min-width: 0px;
+        padding: 0 15px;
+        padding-bottom: 150px;
+    }
+}
+
+
+@media (min-width : 635px){
+    .contentViewFrame{
+        padding-left: 116px;
+        padding-right: 116px;
+    }
+    .tourViewProfileIcon{
+        width: 40px;
+        height: 40px;
+    }
+    .tourViewNick_day_buttons{
+        font-family: 'thin';
+        font-size: 25px;
+    }
+    .tourViewTitle{
+        font-size: 35px;
+    }
+    .contentsOuterFrame{
+        min-width: 400px;
+        padding: 0 116px;
+        padding-bottom: 150px;
+    }
+    .contentsTitle{
+        font-size: 30px;
+        padding-right: 30px;
+    }
+    .contentViewComment{
+        font-size: 30px;
+    }
+    .contentViewCommentWriteMain textarea{
+        width: 912px;
+        max-width: 912px;
+        min-height: 100px;
+        padding: 13px;
+        font-size: 20px;
+        font-family: 'thin';
+    }
+    .contentViewCommentWriteMain img{
+        display:block;
+    }
+}
+.tourViewFrame{
+    gap: 80px;    
+}
+.tourViewFrame input{
+    padding: 10px 10px;
+    font-size: 17px;
+    font-family: 'thin';
+}
+.tourViewFrame textarea{
+    padding: 10px 10px;
+    font-size: 15px;
+    font-family: 'thin';
+}
+.roadMapWriteLeftSection input{
+    width: 300px;
+}
+.border{
+    border:1px solid #D9D9D9;
+    border-radius: 10px;
+}
+.elemGap{
+    gap: 24px;
+}
+.writerGap{
+    gap: 10px;
+}
+.elemTitle{
+    font-size: 30px;
+    font-family: 'bold';
+    color: #2493FA;
+}
+.viewAddtionalCtx{
+    padding: 13px 20px;
+    font-size: 20px;
+    font-family: 'thin';
+    height: fit-content;
+}
+.tourViewButtonFrame{
+    justify-content: space-between;
+}
+.tourViewButtonFrame button{
+    width: fit-content;
+    font-size: 17px;
+    padding: 10px;
+    cursor: pointer;
+}
+.tagFrame{
+    flex-wrap: wrap;
+}
+
+
+@media (min-width:635px){
+    .tourViewFrame input{
+        padding: 13px 20px;
+        font-size: 20px;
+        font-family: 'thin';
+    }
+    .tourViewFrame textarea{
+        padding: 13px 20px;
+        font-size: 20px;
+    }
+    .writeButtonFrame{
+        justify-content: end;
+    }
+}
+
+@media (min-width:1042px){
+    .tourViewFrame{
+        padding-left: 116px;
+        padding-right: 116px;
+    }
+
+    
 }

@@ -1,6 +1,5 @@
 .searchMainFrame{
-    min-width: 400px;
-    padding: 0 116px;
+    padding :0 60px;
     padding-bottom: 150px;
 }
 .searchBodyFrame{
@@ -18,10 +17,13 @@
     gap: 15px;
 }
 .innerGap input{
-    width: 95%;
-    padding: 13px 20px;
+    width: 100%;
+    padding: 10px;
     font-size: 14px;
     font-family: 'thin';
+}
+.searchBox button{
+    display: none;
 }
 .searchBox{
     width: 100%;
@@ -32,7 +34,7 @@
     max-width: 1048px;
     background-color: #B9CFFE;
     font-family: thin;
-    font-size: 30px;
+    font-size: 23px;
     text-align: end;
     padding-top: 13px;
     padding-bottom: 13px;
@@ -49,4 +51,37 @@
     font-size: 20px;
     font-family: 'thin';
 }
+.wrap{
+    flex-wrap: wrap;
+}
+@media (max-width: 428px){
+    .searchResultTitle{
+        padding-right: 0px;
+        font-size: 18px;
+        text-align: center;
+    }
 
+    .searchMainFrame{
+        min-width: 0px;
+        padding: 0 40px;
+        padding-bottom: 150px;
+    }
+}
+@media (min-width:635px){
+    .searchResultTitle{
+        font-size: 30px;
+    }
+    .searchMainFrame{
+        min-width:400px;
+        padding-left: 116px;
+        padding-right: 116px;
+    }
+    .innerGap input{
+        width: 95%;
+        padding: 13px 20px;
+        font-size: 14px;
+    }
+    .searchBox button{
+        display: block;
+    }
+}

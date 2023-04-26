@@ -37,3 +37,8 @@ a{
 textarea{
     resize:none;
 }
+@media (max-width: 428px){
+    .common-body{
+        padding-top: 40px;
+    }
+}

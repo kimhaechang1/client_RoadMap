@@ -20,10 +20,10 @@ const MyPageLayout = () =>{
     },[menuId])
     
     return(
-        <div className="flexRow mypageFrame">
+        <div className="mypageFrame">
             <div className="flexCol menuListFrame">
-                <div className="menuListTitle">내 계정</div>
-                <div className="flexCol menuListContents">
+                <div className="menuListTitle">마이페이지</div>
+                <div className="menuListContents">
                     {Object.keys(menuList).map((menu,i)=>{
                         return(
                             <Link className="LinkTag" to={`/mypage/${menu}`}>

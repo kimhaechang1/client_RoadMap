@@ -1,8 +1,7 @@
-import ImageButton from "../../../components/common/ImageButton";
 import CommonButton from "../../../components/common/button";
 import '../../css/write.css';
 import Tag from "../../../components/tour/tag";
-import RoadElement from "../../../components/tour/road";
+import RoadElement from "../../../components/tour/editableRoad";
 
 const TourWritePage = () =>{
     return (
@@ -22,8 +21,8 @@ const TourWritePage = () =>{
                 </div>
                 <div className="flexCol elemGap">
                     <div className="elemTitle">태그</div>
-                    <div className="flexRow writerGap">
-                        {['태그1','태그2','태태그1'].map((tagName,i)=>{
+                    <div className="tagFrame flexRow writerGap">
+                        {['태그1','태그2','태태그1','프론트엔드 개발자'].map((tagName,i)=>{
                             return (
                                 <Tag key={i} tagName={tagName}></Tag>
                             )
@@ -35,7 +34,7 @@ const TourWritePage = () =>{
                     <div className="elemTitle">본문</div>
                     <textarea className="addtionalCtx border" placeholder="내용을 입력해주세요"></textarea>
                 </div>
-                <div className="buttonFrame writerGap">
+                <div className="writeButtonFrame flexRow writerGap">
                     <CommonButton title={"취소"} style={"reject border"}/>
                     <CommonButton title={"등록"} style={"submit"}/>
                 </div>

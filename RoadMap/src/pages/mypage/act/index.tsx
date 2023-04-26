@@ -10,8 +10,8 @@ const ActPage = () =>{
                     <div className="actContent">
                         <div className="actContentTitle">글제목</div>
                         <div className="actView_comment">
-                            <img className="actContextIcon" src="/eye.png"></img>
-                            <div>0</div>
+                            <img className="actContextIcon eye" src="/eye.png"></img>
+                            <div className="eye">0</div>
                             <img className="actContextIcon" src="/comment.png"></img>
                             <div>0</div>
                         </div>

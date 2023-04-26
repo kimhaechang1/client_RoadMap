@@ -13,7 +13,20 @@
     font-size: 20px;
     font-family: 'thin';
 }
+.commentNick_day{
+    font-size: 15px;
+}
 .commentContextGroup{
-    font-size: 25px;
+    font-size: 17px;
     font-family: 'thin';
+}
+
+@media (min-width : 635px){
+    .commentNick_day{
+        font-size: 20px;
+    }
+    .commentContextGroup{
+        font-size: 25px;
+        font-family: 'thin';
+    }
 }

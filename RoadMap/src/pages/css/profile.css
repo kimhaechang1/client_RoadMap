@@ -5,16 +5,28 @@
     gap: 40px;
 }
 .profileFrame{
-    padding-right: 50px;
     gap: 70px;
     font-family: 'thin';
-    padding-left: 50px;
 }
 .profileTitle{
-    font-size: 30px;
+    font-size: 25px;
 }
 .inputFrame input{
     padding: 13px 20px;
     font-size: 14px;
     font-family: 'thin';
+}
+@media (max-width :400px){
+    .profileFrame{
+        gap: 40px;
+    }
+    .profileTitle{
+        font-size: 20px;
+    }
+}
+@media (min-width : 635px){
+    .profileFrame{
+        padding-right: 50px;
+        padding-left: 50px;
+    }
 }

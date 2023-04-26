@@ -1,30 +1,30 @@
 .actFrame{
-    padding-right: 50px;
     gap: 70px;
     font-family: 'thin';
-    padding-left: 50px;
 }
 .contents{
     gap:14px;
 }
 .actTitle{
-    font-size: 30px;
+    font-size: 25px;
 }
 .actContentTitle{
     font-family: 'bold';
-    font-size: 25px;
+    font-size: 15px;
+    white-space : nowrap;
+    overflow : hidden;
+    text-overflow : ellipsis
 }
 .actContent{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding-bottom: 14px;
-    min-width: 500px;
     border-bottom: 1px solid #D9D9D9;
 }
 .actContextIcon{
-    width: 30px;
-    height: 30px;
+    width: 18px;
+    height: 18px;
 }
 .actView_comment{
     align-items: center;
@@ -33,4 +33,25 @@
     gap: 20px;
     font-size: 20px;
     font-family: 'thin';
+}
+@media (max-width :400px){
+    .actFrame{
+        gap: 40px;
+    }
+    .actTitle{
+        font-size: 20px;
+    }
+}
+@media (min-width : 995px){
+    .actFrame{
+        padding-right: 50px;
+        padding-left: 50px;
+    }
+    .actContentTitle{
+        font-size: 25px;
+    }
+    .actContextIcon{
+        width: 30px;
+        height: 30px;
+    }
 }

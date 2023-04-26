@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 
 const TourList = () =>{
     const ref = useRef<HTMLDivElement>(null);
-    const [target, setTarget] = useState(null);
     const [fixedButton, setFixedButton] = useState<boolean>(false);
 
     useEffect(()=>{
@@ -37,11 +36,15 @@ const TourList = () =>{
                     </Link>
                 </div>
                 <div className="contentsGroupFrame">
-                    {Array.from({length:10}).map((_,i)=> <Content key={i}/> )}
+                    {Array.from({length:10}).map((_,i)=> <Link to={`/tour/${i+1}`}><Content key={i}/></Link> )}
                 </div>
-                {fixedButton ? <Link to="/tour/write"><button className="circleButton fixed">
-                    <img className="writeIcon" src="/write.png"/>
-                </button></Link> : null}
+                {fixedButton ? 
+                <Link to="/tour/write">
+                    <button className="circleButton fixed rightSidefromScroll">
+                        <img className="writeIcon" src="/write.png"/>
+                    </button>
+                </Link> : 
+                null}
             </div>
         </div>
     )   
