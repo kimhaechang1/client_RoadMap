@@ -7,6 +7,9 @@ import '../../../components/css/commonButton.css';
 import RoadElement from '../../../components/tour/editableRoad';
 import Tag from '../../../components/tour/tag';
 import Road from '../../../components/tour/road';
+import { useQuery } from 'react-query';
+import { QueryKeys, fetcher } from '../../../hooks/queryClient';
+import { TourDetail } from '../../../type';
 
 
 const TourItemPage = () =>{
@@ -19,14 +22,26 @@ const TourItemPage = () =>{
         }
     },[id])
 
-    
+    const {data, isSuccess, isLoading}= useQuery<TourDetail>([QueryKeys.TOURS, id]
+        ,()=> fetcher({
+            method : 'GET',
+            path : `article/${id}`
+        }))
+    if(isSuccess){
+        console.log(data)
+    }
+    if(isLoading || !data){
+        return (
+            <div>...Loading</div>
+        )
+    }
     return (
         <div className="contentViewFrame">
             <div className="contentViewTitleGroup">
                 <div className="titleNickAndDay">
                     <img className="tourViewProfileIcon" src="/profile.png"></img>
                     <div className="flexRow tourViewNick_day_buttons ">
-                        <div className="tourViewNick_day">닉네임·작성날짜</div>
+                        <div className="tourViewNick_day">{data.nickName}·{data.date}</div>
                         <div className="tourViewButtonFrame flexRow writerGap">
                             <CommonButton title={"삭제"} style={"reject border"} />
                             <CommonButton title={"수정"} style={"submit"} />
@@ -34,43 +49,44 @@ const TourItemPage = () =>{
                     </div>
                 </div>
                 <div className="titleAndViews">
-                    <div className="tourViewTitle">글 제목</div>
+                    <div className="tourViewTitle">{data.title}</div>
                     <div className="viewPoint">
                         <img className="viewIcon" src="/eye.png"></img>
-                        <div>0</div>
+                        <div>{data.view}</div>
                     </div>
 
                 </div>
 
             </div>
-            <div className="contentViewMain">
+             <div className="contentViewMain">
                 <div className="tourViewFrame flexCol">
                     <div className="flexCol elemGap">
-                        <div className="flexCol elemGap">
-                            {Array.from({ length: 2 }).map((_, i) => {
+                        {data.infos.length > 0 ? <div className="flexCol elemGap">
+                            {data.infos.map((info,i) => {
                                 return (
-                                    <Road key={i} index={i} />
+                                    <Road key={i} {...info} />
                                 )
                             })}
-                        </div>
+                        </div>:null}
+                        {data.content ?
                         <div className="flexCol elemGap">
-                            <div className="viewAddtionalCtx border">추가적인 글내용 {id}</div>
-                        </div>
+                            <div className="viewAddtionalCtx border">{data.content}</div>
+                        </div> : null}
                     </div>
                 </div>
             </div>
-            <div className="flexCol elemGap">
+            { data.tags.length > 0 ? <div className="flexCol elemGap">
                 <div className="tagFrame flexRow writerGap">
-                    {['태그1', '태그2', '태태그1', '프론트엔드 개발자'].map((tagName, i) => {
+                    {data.tags.map((tagName, i) => {
                         return (
                             <Tag key={i} tagName={tagName} isDel={false}></Tag>
                         )
                     })}
                 </div>
-            </div>
+            </div> : null}
             <div className="contentViewCommentFrame">
                 <div className="contentViewComment">
-                    <div id="comment_write" className="contentViewCommentNumber">N개의 댓글</div>
+                    <div id="comment_write" className="contentViewCommentNumber">{data.comments.length}개의 댓글</div>
                     <div className="contentViewCommentWrite">
                         <div className="contentViewCommentWriteMain">
                             <img className="profileIcon" src="/profile.png"></img>
@@ -81,15 +97,15 @@ const TourItemPage = () =>{
                         </div>
                     </div>
                 </div>
-                <div className="contentViewCommentMain">
-                    {Array.from({ length: 10 }).map((_, i) => {
+                {data.comments.length > 0 ? <div className="contentViewCommentMain">
+                    {data.comments.map((comment, i) => {
                         return (
                             <div key={i}>
-                                <Comment />
+                                <Comment {...comment} key={comment.commentId}/>
                             </div>
                         )
                     })}
-                </div>
+                </div> : null}
                 <a href="#header" className="circleButton goTop rightSidefromScroll">
                     Up
                 </a>

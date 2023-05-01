@@ -1,15 +1,20 @@
+import { Comment } from '../../type';
 import '../css/comment.css';
 
-const Comment = () =>{
+const Comment = ({
+    content,
+    date,
+    nickName,
+} : Comment) =>{
     return(
         <div className="commentGroup">
             <div className="commentTitleGroup">
                 <img className="profileIcon" src="/profile.png"></img>
-                <div className="commentNick_day">닉네임·작성날짜</div>
+                <div className="commentNick_day">{nickName}·{date}</div>
             </div>
             
             <div className="commentContextGroup">
-                <div className="commentMain">댓글 내용</div>
+                <div className="commentMain">{content}</div>
             </div>
         </div>
     )

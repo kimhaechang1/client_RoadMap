@@ -5,8 +5,9 @@ import '../css/commonButton.css';
 import { RefObject, useEffect, useRef, useState } from 'react';
 import useIntersection from '../../hooks/useIntersection';
 import { Link } from 'react-router-dom';
+import {  Tours,Tour } from '../../type';
 
-const TourList = () =>{
+const TourList = ( {tours} : {tours : Tours[]} ) =>{
     const ref = useRef<HTMLDivElement>(null);
     const [fixedButton, setFixedButton] = useState<boolean>(false);
 
@@ -36,7 +37,11 @@ const TourList = () =>{
                     </Link>
                 </div>
                 <div className="contentsGroupFrame">
-                    {Array.from({length:10}).map((_,i)=> <Link to={`/tour/${i+1}`}><Content key={i}/></Link> )}
+                    {tours.map( tour => tour.map((item)=>{
+                        return(
+                            <Link to={`/tour/${item.roadmapId}`}><Content {...item} key={item.roadmapId}/></Link>
+                        )  
+                    }) )}
                 </div>
                 {fixedButton ? 
                 <Link to="/tour/write">

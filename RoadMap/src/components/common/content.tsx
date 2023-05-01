@@ -1,20 +1,27 @@
 import '../css/content.css';
-
-const Content = () =>{
+import { Tour } from '../../type';
+const Content = ({ 
+    roadmapId ,
+    nickName ,
+    date ,
+    view,
+    title ,
+    commentCount
+} : Tour) =>{
     return(
         <div className="contentGroup">
             <div className="contentTitleGroup">
                 <img className="profileIcon" src="./profile.png"></img>
-                <div className="nick_day">닉네임·작성날짜</div>
+                <div className="nick_day">{nickName}·{date}</div>
             </div>
             
             <div className="contentContextGroup">
-                <div className="title">제목이최대몇자까지일까라고생각할때면누군가가나에게말했지</div>
+                <div className="title">{title}</div>
                 <div className="view_comment">
                     <img className="contextIcon eye" src="./eye.png"></img>
-                    <div className="eye">0</div>
+                    <div className="eye">{view}</div>
                     <img className="contextIcon comment" src="./comment.png"></img>
-                    <div className="comment">0</div>
+                    <div className="comment">{commentCount}</div>
                 </div>
             </div>
         </div>
