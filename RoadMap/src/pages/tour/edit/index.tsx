@@ -1,45 +1,17 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Info, ReturnMsg, TourDetail } from "../../../type";
+import { Info, TourDetail } from "../../../type";
 import CommonButton from "../../../components/common/button";
 import '../../css/write.css';
 import Tag from "../../../components/tour/tag";
 import RoadElement from "../../../components/tour/editableRoad";
-import { useMutation } from "react-query";
-import { QueryKeys, fetcher } from "../../../hooks/queryClient";
 
-const TourWritePage = () =>{
-
-    const navigate = useNavigate();
+const TourEditPage = () =>{
 
     const [elemTitle, setElemTitle] = useState<string>("");
     const [tagList, setTagList] = useState<string[]>([]);
-    const [roadmap, setRoadmap] = useState<Info[]>([{title:'',date:'',content : ''}]);
+    const [roadmap, setRoadmap] = useState<Info[]>();
     const [content, setContent] = useState<string>("");
     
-    const postNewArticle = useMutation<ReturnMsg>(()=>fetcher({
-        method:'POST',
-        path:'article/new',
-        body:{
-            title : elemTitle,
-            infos : roadmap,
-            tags : tagList,
-            content: content
-        }
-    }),
-    {
-        onSuccess: ()=>{
-            if(postNewArticle.data?.success){
-                navigate(`/tour/${postNewArticle.data.id}`)
-            }else{
-                alert(postNewArticle.data?.msg);
-            }
-        }
-    }
-    )
-
-
-
     const onElemTitleChangeHandler = (e : React.ChangeEvent<HTMLInputElement>) =>{
         const element = e.target as HTMLInputElement;
         setElemTitle(element.value)
@@ -62,14 +34,6 @@ const TourWritePage = () =>{
         setContent(element.value);
     }
 
-    
-
-    const onSubmitHandler = () =>{
-        
-        postNewArticle.mutate();
-        
-    }
-
     return (
         <div className="writeFrame flexCol">
             <div className="flexCol elemGap">
@@ -79,9 +43,12 @@ const TourWritePage = () =>{
             <div className="flexCol elemGap">
                 <div className="flexCol elemGap">
                     <div className="elemTitle">로드맵</div>
-                    {roadmap.map((data,i)=>{
+                    {!roadmap ? 
+                    <RoadElement index={0}/> 
+                    : 
+                    roadmap.map((_,i)=>{
                         return(
-                            <RoadElement allRoadmap={roadmap} setRoadmap={setRoadmap} data={data} key={i} index={i}/>
+                            <RoadElement key={i} index={i}/>
                         )
                     })}
                 </div>
@@ -102,10 +69,10 @@ const TourWritePage = () =>{
                 </div>
                 <div className="writeButtonFrame flexRow writerGap">
                     <CommonButton title={"취소"} style={"reject border"}/>
-                    <CommonButton handler={onSubmitHandler} title={"등록"} style={"submit"}/>
+                    <CommonButton title={"등록"} style={"submit"}/>
                 </div>
             </div>
         </div>
     )
 }
-export default TourWritePage;
+export default TourEditPage;

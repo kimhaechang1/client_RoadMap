@@ -1,4 +1,4 @@
-import {useParams, useNavigate} from 'react-router-dom';
+import {useParams, useNavigate, Link} from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import CommonButton from '../../../components/common/button';
 import Comment from '../../../components/tour/comment';
@@ -44,7 +44,7 @@ const TourItemPage = () =>{
                         <div className="tourViewNick_day">{data.nickName}·{data.date}</div>
                         <div className="tourViewButtonFrame flexRow writerGap">
                             <CommonButton title={"삭제"} style={"reject border"} />
-                            <CommonButton title={"수정"} style={"submit"} />
+                            <Link to={`/tour/edit/${id}`}><CommonButton title={"수정"} style={"submit"} /></Link>
                         </div>
                     </div>
                 </div>

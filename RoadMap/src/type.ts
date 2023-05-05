@@ -43,3 +43,8 @@ export type Comment= {
     date : string,
     content : string,
 }
+export type ReturnMsg = {
+    success : string,
+    msg? : string,
+    id? : string
+}

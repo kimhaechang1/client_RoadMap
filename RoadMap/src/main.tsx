@@ -4,9 +4,9 @@ import App from './app';
 import {BrowserRouter} from 'react-router-dom';
 import { worker } from './mocks/browser';
 
-if (import.meta.env.DEV) {
-  worker.start()
-}
+// if (import.meta.env.DEV) {
+//   worker.start()
+// }
 
 
 

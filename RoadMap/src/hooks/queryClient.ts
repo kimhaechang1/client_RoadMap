@@ -22,7 +22,7 @@ type AnyObj = {
     [key : string] : any
 }
 
-const BASE_URL = "/";
+const BASE_URL = "http://localhost:1234/";
 
 export const fetcher = async({
     method,
@@ -49,6 +49,7 @@ export const fetcher = async({
             url +='?'+URLParams;
         }
         if(body){
+            console.log(body);
             fetchOption.body = JSON.stringify(body);
         }
         const res = await fetch(url, fetchOption);
