@@ -11,7 +11,7 @@ const TourPage = () =>{
         QueryKeys.TOURS, 
         ({pageParam = ""})=>fetcher({
             method:'GET',
-            path: 'list',
+            path: 'tour/list',
             params:{
                 cursor : pageParam
             }

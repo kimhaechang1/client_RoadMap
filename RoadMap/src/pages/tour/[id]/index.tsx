@@ -7,9 +7,9 @@ import '../../../components/css/commonButton.css';
 import RoadElement from '../../../components/tour/editableRoad';
 import Tag from '../../../components/tour/tag';
 import Road from '../../../components/tour/road';
-import { useQuery } from 'react-query';
-import { QueryKeys, fetcher } from '../../../hooks/queryClient';
-import { TourDetail } from '../../../type';
+import { useMutation, useQuery } from 'react-query';
+import { QueryKeys, fetcher, getQueryClient } from '../../../hooks/queryClient';
+import { ReturnMsg, TourDetail } from '../../../type';
 
 
 const TourItemPage = () =>{
@@ -22,10 +22,35 @@ const TourItemPage = () =>{
         }
     },[id])
 
+    const deleteQuery = useMutation<ReturnMsg>(()=>fetcher({
+        method : 'DELETE',
+        path : `tour/${id}`
+    }),{
+        onSuccess : ()=>{
+            if(deleteQuery.data?.success){
+                getQueryClient().invalidateQueries(QueryKeys.TOURS,{
+                    exact : false,
+                    refetchInactive : true
+                })
+                navigate('/tour');
+                
+            }else{
+                getQueryClient().invalidateQueries(QueryKeys.TOURS,{
+                    exact : false,
+                    refetchInactive : true
+                })
+                alert(deleteQuery.data?.msg);
+            }
+        }
+    })
+    const onDeleteHandler = () =>{
+        deleteQuery.mutate();
+    }
+
     const {data, isSuccess, isLoading}= useQuery<TourDetail>([QueryKeys.TOURS, id]
         ,()=> fetcher({
             method : 'GET',
-            path : `article/${id}`
+            path : `tour/${id}`
         }))
     if(isSuccess){
         console.log(data)
@@ -35,6 +60,8 @@ const TourItemPage = () =>{
             <div>...Loading</div>
         )
     }
+
+    
     return (
         <div className="contentViewFrame">
             <div className="contentViewTitleGroup">
@@ -43,7 +70,7 @@ const TourItemPage = () =>{
                     <div className="flexRow tourViewNick_day_buttons ">
                         <div className="tourViewNick_day">{data.nickName}·{data.date}</div>
                         <div className="tourViewButtonFrame flexRow writerGap">
-                            <CommonButton title={"삭제"} style={"reject border"} />
+                            <CommonButton handler={onDeleteHandler} title={"삭제"} style={"reject border"} />
                             <Link to={`/tour/edit/${id}`}><CommonButton title={"수정"} style={"submit"} /></Link>
                         </div>
                     </div>

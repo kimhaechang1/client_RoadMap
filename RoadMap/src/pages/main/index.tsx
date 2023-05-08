@@ -8,7 +8,9 @@ const MainPage = () =>{
     ,() =>fetcher({
         method :'GET',
         path : 'main',
-    }))
+    }),{
+        cacheTime : 0
+    })
     if(isSuccess){
         console.log(data);
     }

@@ -5,21 +5,22 @@ import CommonButton from "../../../components/common/button";
 import '../../css/write.css';
 import Tag from "../../../components/tour/tag";
 import RoadElement from "../../../components/tour/editableRoad";
+import ImageButton from "../../../components/common/ImageButton";
 import { useMutation } from "react-query";
 import { QueryKeys, fetcher } from "../../../hooks/queryClient";
-
+import { getQueryClient } from "../../../hooks/queryClient";
 const TourWritePage = () =>{
 
     const navigate = useNavigate();
 
     const [elemTitle, setElemTitle] = useState<string>("");
     const [tagList, setTagList] = useState<string[]>([]);
-    const [roadmap, setRoadmap] = useState<Info[]>([{title:'',date:'',content : ''}]);
+    const [roadmap, setRoadmap] = useState<Info[]>([]);
     const [content, setContent] = useState<string>("");
     
     const postNewArticle = useMutation<ReturnMsg>(()=>fetcher({
         method:'POST',
-        path:'article/new',
+        path:'tour/write',
         body:{
             title : elemTitle,
             infos : roadmap,
@@ -30,9 +31,19 @@ const TourWritePage = () =>{
     {
         onSuccess: ()=>{
             if(postNewArticle.data?.success){
+                getQueryClient().invalidateQueries(QueryKeys.TOURS,{
+                    exact : false,
+                    refetchInactive : true
+                })
                 navigate(`/tour/${postNewArticle.data.id}`)
+                
             }else{
+                getQueryClient().invalidateQueries(QueryKeys.TOURS,{
+                    exact : false,
+                    refetchInactive : true
+                })
                 alert(postNewArticle.data?.msg);
+                
             }
         }
     }
@@ -62,12 +73,14 @@ const TourWritePage = () =>{
         setContent(element.value);
     }
 
-    
+    const onInitHandler = () =>{
+        const cp = [...roadmap];
+        cp.push({title:'',date:'',content : ''})
+        setRoadmap(cp);
+    }
 
     const onSubmitHandler = () =>{
-        
         postNewArticle.mutate();
-        
     }
 
     return (
@@ -79,7 +92,10 @@ const TourWritePage = () =>{
             <div className="flexCol elemGap">
                 <div className="flexCol elemGap">
                     <div className="elemTitle">로드맵</div>
-                    {roadmap.map((data,i)=>{
+                    {roadmap.length === 0 ? 
+                    <ImageButton handler={onInitHandler} imgSrc={"/plus.png"}/> 
+                    : 
+                    roadmap.map((data,i)=>{
                         return(
                             <RoadElement allRoadmap={roadmap} setRoadmap={setRoadmap} data={data} key={i} index={i}/>
                         )

@@ -30,7 +30,7 @@ export const fetcher = async({
     body,
     params
 }:{
-    method : 'GET' | 'POST' | 'DELETE' | 'UPDATE',
+    method : 'GET' | 'POST' | 'DELETE' | 'PUT',
     path : string,
     body? : AnyObj,
     params? : AnyObj

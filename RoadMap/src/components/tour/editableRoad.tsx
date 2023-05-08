@@ -48,14 +48,10 @@ const RoadElement = ({index, data, allRoadmap, setRoadmap} :
             </div>
             <textarea value={data.content} onChange={(e)=>{onContentChangeHandler(e)}} className="roadMapContextWriter border" placeholder="로드맵에 대해 간략하게 적어주세요"></textarea>
             <div className="roadButtonFrame flexCol">
-                {index >= 1 ? 
                 <div className="flexRow">
                     <ImageButton handler={onDeleteHandler} imgSrc={"/gob.png"} style={"left deleteRightBorder"}/>
                     <ImageButton handler={onInsertHandler}imgSrc={"/plus.png"} style={"right"}/>
                 </div>
-                :
-                <ImageButton handler={onInsertHandler} imgSrc={"/plus.png"} /> 
-                }
             </div>
         </div>
     )
