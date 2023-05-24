@@ -6,51 +6,97 @@ import '../../css/write.css';
 import Tag from "../../../components/tour/tag";
 import RoadElement from "../../../components/tour/editableRoad";
 import ImageButton from "../../../components/common/ImageButton";
-import { useMutation } from "react-query";
+import { QueryKey, useMutation } from "react-query";
 import { QueryKeys, fetcher } from "../../../hooks/queryClient";
 import { getQueryClient } from "../../../hooks/queryClient";
 const TourWritePage = () =>{
 
     const navigate = useNavigate();
 
+    const [roadmapId, setRoadmapId] = useState<string | undefined>("");
     const [elemTitle, setElemTitle] = useState<string>("");
     const [tagList, setTagList] = useState<string[]>([]);
     const [roadmap, setRoadmap] = useState<Info[]>([]);
     const [content, setContent] = useState<string>("");
-    
-    const postNewArticle = useMutation<ReturnMsg>(()=>fetcher({
-        method:'POST',
-        path:'tour/write',
-        body:{
-            title : elemTitle,
-            infos : roadmap,
-            tags : tagList,
-            content: content
+
+    const postInfo = useMutation({
+        mutationFn : (id : string)=>{
+            return fetcher({
+                method : 'POST',
+                path : `tour/${id}/info`,
+                body : {
+                    infos : roadmap
+                }
+            })
+        },
+        onSuccess : (data, variable, ctx)=>{
+            console.log(data);
+        },
+        onError : (error, variable) =>{
+            alert("서버 오류로 인해 로드맵 데이터가 저장되지 못했습니다.")
         }
-    }),
-    {
-        onSuccess: ()=>{
-            if(postNewArticle.data?.success){
-                getQueryClient().invalidateQueries(QueryKeys.TOURS,{
-                    exact : false,
-                    refetchInactive : true
-                })
-                navigate(`/tour/${postNewArticle.data.id}`)
-                
-            }else{
-                getQueryClient().invalidateQueries(QueryKeys.TOURS,{
-                    exact : false,
-                    refetchInactive : true
-                })
-                alert(postNewArticle.data?.msg);
-                
+    })
+
+    const postTag = useMutation({
+        mutationFn : (id : string) =>{
+            return fetcher({
+                method : 'POST',
+                path : `tour/${id}/tag`,
+                body : {
+                    tags : tagList
+                }
+            })
+        },
+        onSuccess : (data, variable, ctx)=>{
+            console.log(data);
+        },
+        onError : (error) =>{
+            alert("서버 오류로 인해 태그 데이터가 저장되지 못했습니다.")
+        }
+    })
+
+    const post = useMutation({
+        mutationFn : (id)=>{
+            return fetcher({
+                method : 'POST',
+                path : 'tour/write',
+                body : {
+                    title : elemTitle,
+                    content : content
+                }
+            })
+        },
+        onSuccess : (data, variable, ctx)=>{
+            if(!data.id){
+                return data;
             }
+            let promiseList = [];
+            promiseList.push(postTag.mutateAsync(data.id))
+            promiseList.push(postInfo.mutateAsync(data.id))
+            
+            Promise.all(promiseList)
+            .then((values)=>{
+                values.map(value =>{
+                    if(!value.success){
+                        alert(value.msg);
+                        return;
+                    }
+                })
+                getQueryClient().invalidateQueries(QueryKeys.TOURS,{
+                    exact : false,
+                    refetchInactive : true
+                })
+            }).catch((error)=>{
+                throw error;
+            })
+            
+        },
+        onError : (error)=>{
+            alert("서버 오류로 인해 본문 내용이 저장되지 못했습니다.")
         }
-    }
-    )
-
-
-
+    })
+    
+    
     const onElemTitleChangeHandler = (e : React.ChangeEvent<HTMLInputElement>) =>{
         const element = e.target as HTMLInputElement;
         setElemTitle(element.value)
@@ -80,7 +126,7 @@ const TourWritePage = () =>{
     }
 
     const onSubmitHandler = () =>{
-        postNewArticle.mutate();
+        post.mutate();
     }
 
     return (

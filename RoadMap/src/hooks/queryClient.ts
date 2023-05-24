@@ -56,7 +56,7 @@ export const fetcher = async({
         const json = await res.json();
         return json;
     }catch(err){
-        console.log(err);
+        throw err;
     }
 }
 
