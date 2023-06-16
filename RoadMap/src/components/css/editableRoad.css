@@ -29,6 +29,21 @@
 .roadButtonFrame{
     justify-content: end;
 }
+.dateInput{
+    width: 100%;
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+    
+}
+input[type="date"]::before{
+    content: attr(data-placeholder);
+    width:100%;
+}
+
+input[type="date"]:valid::before {
+  display: none;
+}
+
 @media (min-width : 635px){
     .roadMapContextWriter{
         font-size: 20px;

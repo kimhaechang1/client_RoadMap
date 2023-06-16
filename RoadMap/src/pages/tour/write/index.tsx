@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Info, ReturnMsg, TourDetail } from "../../../type";
+import { Info, PostInfo, Return, TourDetail } from "../../../type";
 import CommonButton from "../../../components/common/button";
 import '../../css/write.css';
 import Tag from "../../../components/tour/tag";
@@ -9,6 +9,7 @@ import ImageButton from "../../../components/common/ImageButton";
 import { QueryKey, useMutation } from "react-query";
 import { QueryKeys, fetcher } from "../../../hooks/queryClient";
 import { getQueryClient } from "../../../hooks/queryClient";
+
 const TourWritePage = () =>{
 
     const navigate = useNavigate();
@@ -19,25 +20,38 @@ const TourWritePage = () =>{
     const [roadmap, setRoadmap] = useState<Info[]>([]);
     const [content, setContent] = useState<string>("");
 
-    const postInfo = useMutation({
+    const postInfo = useMutation<Return,any,string,any>({
         mutationFn : (id : string)=>{
+            let postData : PostInfo[] = [];
+            let cp = [...roadmap];
+            cp.map((data)=>{
+                let newDate = data.date.replaceAll("-","/");
+                postData.push({
+                    date : newDate,
+                    title : data.title,
+                    content : data.content
+                })
+            })
+            // cp.map((r)=>
+            //     r.date = r.date.year;
+            // )
             return fetcher({
                 method : 'POST',
                 path : `tour/${id}/info`,
                 body : {
-                    infos : roadmap
+                    infos : postData
                 }
             })
         },
         onSuccess : (data, variable, ctx)=>{
-            console.log(data);
+            
         },
         onError : (error, variable) =>{
             alert("서버 오류로 인해 로드맵 데이터가 저장되지 못했습니다.")
         }
     })
 
-    const postTag = useMutation({
+    const postTag = useMutation<Return,any,string,any>({
         mutationFn : (id : string) =>{
             return fetcher({
                 method : 'POST',
@@ -47,34 +61,36 @@ const TourWritePage = () =>{
                 }
             })
         },
-        onSuccess : (data, variable, ctx)=>{
-            console.log(data);
+        onSuccess : (_data, _variable, _ctx)=>{
+           
         },
-        onError : (error) =>{
+        onError : (_error) =>{
             alert("서버 오류로 인해 태그 데이터가 저장되지 못했습니다.")
         }
     })
 
-    const post = useMutation({
-        mutationFn : (id)=>{
-            return fetcher({
+    const post = useMutation<Return>(
+        ()=> fetcher({
                 method : 'POST',
                 path : 'tour/write',
                 body : {
                     title : elemTitle,
                     content : content
                 }
-            })
-        },
-        onSuccess : (data, variable, ctx)=>{
+        }),
+        {
+
+        onSuccess : (data)=>{
             if(!data.id){
-                return data;
+                return;
             }
-            let promiseList = [];
-            promiseList.push(postTag.mutateAsync(data.id))
-            promiseList.push(postInfo.mutateAsync(data.id))
+            let promiseList = [postTag, postInfo];
+            let requests : Promise<Return>[]  = promiseList.map(post=>
+                post.mutateAsync(data?.id)
+            )
             
-            Promise.all(promiseList)
+            
+            Promise.all(requests)
             .then((values)=>{
                 values.map(value =>{
                     if(!value.success){
@@ -82,19 +98,23 @@ const TourWritePage = () =>{
                         return;
                     }
                 })
+                
+            }).then(()=>
                 getQueryClient().invalidateQueries(QueryKeys.TOURS,{
                     exact : false,
                     refetchInactive : true
                 })
-            }).catch((error)=>{
+            )
+            .catch((error)=>{
                 throw error;
             })
             
         },
-        onError : (error)=>{
+        onError : ()=>{
             alert("서버 오류로 인해 본문 내용이 저장되지 못했습니다.")
         }
-    })
+        }
+    )
     
     
     const onElemTitleChangeHandler = (e : React.ChangeEvent<HTMLInputElement>) =>{
@@ -107,9 +127,12 @@ const TourWritePage = () =>{
         const element = e.target as HTMLInputElement;
         if(e.code==="Enter"){
             const copy = [...tagList];
-            if(!copy.includes(element.value)){
-                copy.push(element.value);
+            const data = element.value;
+            if(!copy.includes(data) && data){
+                element.value = "";
+                copy.push(data);
                 setTagList(copy);
+                console.log([...tagList]);
             } 
         }
     }
@@ -121,7 +144,7 @@ const TourWritePage = () =>{
 
     const onInitHandler = () =>{
         const cp = [...roadmap];
-        cp.push({title:'',date:'',content : ''})
+        cp.push({title:'',date: '', content : ''})
         setRoadmap(cp);
     }
 
@@ -152,7 +175,7 @@ const TourWritePage = () =>{
                     <div className="tagFrame flexRow writerGap">
                         {tagList.map((tagName,i)=>{
                             return (
-                                <Tag key={i} tagName={tagName}></Tag>
+                                <Tag key={i} tagName={tagName} index={i} tagList={tagList} setTagList={setTagList}></Tag>
                             )
                         })}
                     </div>

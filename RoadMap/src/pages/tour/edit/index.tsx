@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Info, ReturnMsg, TourDetail } from "../../../type";
+import { Info, Return, TourDetail, PostInfo } from "../../../type";
 import CommonButton from "../../../components/common/button";
 import '../../css/write.css';
 import Tag from "../../../components/tour/tag";
@@ -30,37 +30,13 @@ const TourEditPage = () =>{
         path:`tour/${id}`,
     }))
 
-    const editQuery = useMutation<ReturnMsg>(()=>fetcher({
-        method:'PUT',
-        path : `tour/edit/${id}`,
-        body : {
-            title : elemTitle,
-            infos : roadmap,
-            tags : tagList,
-            content : content
-        }
-    }),{
-        onSuccess: ()=>{
-            if(editQuery.data?.success){
-                getQueryClient().invalidateQueries(QueryKeys.TOURS,{
-                    exact : false,
-                    refetchInactive : true
-                })
-                navigate(`/tour/${editQuery.data.id}`)
-                
-                
-            }else{
-                alert(editQuery.data?.msg);
-                getQueryClient().invalidateQueries(QueryKeys.TOURS,{
-                    exact : false,
-                    refetchInactive : true
-                })
-            }
-        }
-    })
+    
 
     useEffect(()=>{
         if(!data) return;
+        data?.infos.map(info=>{
+            info.date = info.date.replaceAll("/","-");
+        })
         setElemTitle(data?.title);
         setTagList(data?.tags);
         setRoadmap(data?.infos);
@@ -68,6 +44,7 @@ const TourEditPage = () =>{
     },[data])
 
     
+
     const onInitHandler = () =>{
         const cp = [...roadmap];
         cp.push({title:'',date:'',content : ''})
@@ -84,9 +61,12 @@ const TourEditPage = () =>{
         const element = e.target as HTMLInputElement;
         if(e.code==="Enter"){
             const copy = [...tagList];
-            if(!copy.includes(element.value)){
-                copy.push(element.value);
+            const data = element.value;
+            if(!copy.includes(data) && data){
+                element.value = "";
+                copy.push(data);
                 setTagList(copy);
+                console.log([...tagList]);
             } 
         }
     }
@@ -96,8 +76,117 @@ const TourEditPage = () =>{
         setContent(element.value);
     }
 
+    const putRoadmap = useMutation<Return, any, any, any>({
+        mutationFn: (id) =>{
+            return fetcher({
+                method : 'PUT',
+                path : `tour/${id}`,
+                body : {
+                    title : elemTitle,
+                    content : content
+                }
+            })
+        },
+        onError : ()=>{
+            alert("본문 저장 중 에러가 발생하였습니다.");
+        }
+    })
+
+    const postInfo = useMutation<Return,any,string,any>({
+        mutationFn : (id)=>{
+            let postData : PostInfo[] = [];
+            let cp = [...roadmap];
+            cp.map((data)=>{
+                let newDate = data.date.replaceAll("-","/");
+                postData.push({
+                    date : newDate,
+                    title : data.title,
+                    content : data.content
+                })
+            })
+            return fetcher({
+                method : 'POST',
+                path : `tour/${id}/info`,
+                body : {
+                    infos : postData
+                }
+            })
+        },
+        onError : (error, variable) =>{
+            alert("서버 오류로 인해 로드맵 데이터가 저장되지 못했습니다.")
+        }
+    })
+
+    const postTag = useMutation<Return,any,string,any>({
+        mutationFn : (id) =>{
+            return fetcher({
+                method : 'POST',
+                path : `tour/${id}/tag`,
+                body : {
+                    tags : tagList
+                }
+            })
+        },
+        onError : (_error) =>{
+            alert("서버 오류로 인해 태그 데이터가 저장되지 못했습니다.")
+        }
+    })
+
+    const deleteInfos = useMutation<Return,any, string | undefined, any>({
+        mutationFn : (id) =>{
+            return fetcher({
+                method : 'DELETE',
+                path : `tour/${id}/info`
+            })
+        }, 
+        onError : ()=>{
+            alert("삭제 수행도중 에러1가 발생하였습니다.");
+        }
+    })
+
+    const deleteTags = useMutation<Return,any, string | undefined, any>({
+        mutationFn : (id) =>{
+            return fetcher({
+                method : 'DELETE',
+                path : `tour/${id}/tag`
+            })
+        }, 
+        onError : ()=>{
+            alert("삭제 수행도중 에러2가 발생하였습니다.");
+        }
+    })
+
     const onSubmitHandler = () =>{
-        editQuery.mutate();
+        const delPromiseList = [deleteInfos,deleteTags];
+        let delRequests : (Promise<Return> | undefined)[] = delPromiseList.map(promise=> promise.mutateAsync(id)) 
+        const putPromiseList = [putRoadmap, postInfo, postTag]
+        Promise.all(delRequests)
+        .then((values)=>{
+            values.map(value =>{
+                if(!value?.success){
+                    alert(value?.msg);
+                    return;
+                }
+            })
+        }).then(()=>{
+            
+            // putRoadmap.mutate(id);
+            let putRequests : (Promise<Return>)[] = putPromiseList.map(promise => promise.mutateAsync(id));
+            Promise.all(putRequests)
+            .then((values)=>{
+                values.map(value=>{
+                    if(!value?.success){
+                        alert(value?.msg);
+                        return;
+                    }
+                })
+            }).catch((error)=> {
+                throw error
+            })
+
+        }).catch((error)=>{
+            throw error;
+        })
     }
 
     return (
@@ -123,7 +212,7 @@ const TourEditPage = () =>{
                     <div className="tagFrame flexRow writerGap">
                         {tagList.map((tagName,i)=>{
                             return (
-                                <Tag key={i} tagName={tagName}></Tag>
+                                <Tag key={i} tagName={tagName} index={i} tagList={tagList} setTagList={setTagList}></Tag>
                             )
                         })}
                     </div>

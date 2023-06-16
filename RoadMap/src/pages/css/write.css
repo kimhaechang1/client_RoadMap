@@ -44,7 +44,13 @@
     flex-wrap: wrap;
 }
 
-
+@media (max-width: 428px){
+    .writeFrame {
+        min-width: 0px;
+        padding: 0 40px;
+        padding-bottom: 150px;
+    }
+}
 @media (min-width:635px){
     .writeFrame{
         padding-left: 116px;

@@ -31,11 +31,20 @@ export type TourDetail = {
     content : string,
     comments : Comment[]
 }
-
+export type PostInfo = {
+    date : string,
+    title : string,
+    content : string
+}
 export type Info = {
     date : string,
     title : string,
     content: string
+}
+export type date = {
+    year : string,
+    month : string,
+    day : string
 }
 export type Comment= {
     commentId : string,
@@ -43,8 +52,9 @@ export type Comment= {
     date : string,
     content : string,
 }
-export type ReturnMsg = {
-    success : string,
-    msg? : string,
-    id? : string
+
+export type Return = {
+    success : boolean,
+    id : string,
+    msg : string
 }
