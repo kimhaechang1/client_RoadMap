@@ -9,7 +9,7 @@ import Tag from '../../../components/tour/tag';
 import Road from '../../../components/tour/road';
 import { useMutation, useQuery } from 'react-query';
 import { QueryKeys, fetcher, getQueryClient } from '../../../hooks/queryClient';
-import { ReturnMsg, TourDetail } from '../../../type';
+import { TourDetail } from '../../../type';
 
 
 const TourItemPage = () =>{
@@ -22,25 +22,15 @@ const TourItemPage = () =>{
         }
     },[id])
 
-    const deleteQuery = useMutation<ReturnMsg>(()=>fetcher({
+    const deleteQuery = useMutation(()=>fetcher({
         method : 'DELETE',
         path : `tour/${id}`
     }),{
         onSuccess : ()=>{
-            if(deleteQuery.data?.success){
-                getQueryClient().invalidateQueries(QueryKeys.TOURS,{
-                    exact : false,
-                    refetchInactive : true
-                })
-                navigate('/tour');
-                
-            }else{
-                getQueryClient().invalidateQueries(QueryKeys.TOURS,{
-                    exact : false,
-                    refetchInactive : true
-                })
-                alert(deleteQuery.data?.msg);
-            }
+            getQueryClient().invalidateQueries(QueryKeys.TOURS,{
+                refetchInactive : true
+            })
+            
         }
     })
     const onDeleteHandler = () =>{
@@ -51,7 +41,10 @@ const TourItemPage = () =>{
         ,()=> fetcher({
             method : 'GET',
             path : `tour/${id}`
-        }))
+        }),
+        {
+            cacheTime : 0
+        })
     if(isSuccess){
         console.log(data)
     }
@@ -104,9 +97,9 @@ const TourItemPage = () =>{
             </div>
             { data.tags.length > 0 ? <div className="flexCol elemGap">
                 <div className="tagFrame flexRow writerGap">
-                    {data.tags.map((tagName, i) => {
+                    { data.tags.map((tagName, i) => {
                         return (
-                            <Tag key={i} tagName={tagName} isDel={false}></Tag>
+                            <Tag key={i} tagName={tagName.tag} isDel={false} index={i}></Tag>
                         )
                     })}
                 </div>

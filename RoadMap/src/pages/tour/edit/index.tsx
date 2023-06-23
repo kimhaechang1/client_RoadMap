@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Info, Return, TourDetail, PostInfo } from "../../../type";
+import { Info, Return, TourDetail, PostInfo, TagType } from "../../../type";
 import CommonButton from "../../../components/common/button";
 import '../../css/write.css';
 import Tag from "../../../components/tour/tag";
@@ -37,8 +37,11 @@ const TourEditPage = () =>{
         data?.infos.map(info=>{
             info.date = info.date.replaceAll("/","-");
         })
+        let tagList = data?.tags.map((tagData)=>{
+            return tagData.tag;
+        })
         setElemTitle(data?.title);
-        setTagList(data?.tags);
+        setTagList(tagList);
         setRoadmap(data?.infos);
         setContent(data?.content);
     },[data])
@@ -76,7 +79,7 @@ const TourEditPage = () =>{
         setContent(element.value);
     }
 
-    const putRoadmap = useMutation<Return, any, any, any>({
+    const putRoadmap = useMutation<any, any, any, any>({
         mutationFn: (id) =>{
             return fetcher({
                 method : 'PUT',
@@ -92,7 +95,7 @@ const TourEditPage = () =>{
         }
     })
 
-    const postInfo = useMutation<Return,any,string,any>({
+    const postInfo = useMutation<any,any,string,any>({
         mutationFn : (id)=>{
             let postData : PostInfo[] = [];
             let cp = [...roadmap];
@@ -107,9 +110,7 @@ const TourEditPage = () =>{
             return fetcher({
                 method : 'POST',
                 path : `tour/${id}/info`,
-                body : {
-                    infos : postData
-                }
+                body : postData
             })
         },
         onError : (error, variable) =>{
@@ -117,14 +118,17 @@ const TourEditPage = () =>{
         }
     })
 
-    const postTag = useMutation<Return,any,string,any>({
+    const postTag = useMutation<any,any,string,any>({
         mutationFn : (id) =>{
+            let tags : TagType[] = tagList.map((tag)=>{
+                return {
+                    tag
+                }
+            });
             return fetcher({
                 method : 'POST',
                 path : `tour/${id}/tag`,
-                body : {
-                    tags : tagList
-                }
+                body : tags
             })
         },
         onError : (_error) =>{
@@ -132,7 +136,7 @@ const TourEditPage = () =>{
         }
     })
 
-    const deleteInfos = useMutation<Return,any, string | undefined, any>({
+    const deleteInfos = useMutation<any,any, string | undefined, any>({
         mutationFn : (id) =>{
             return fetcher({
                 method : 'DELETE',
@@ -144,7 +148,7 @@ const TourEditPage = () =>{
         }
     })
 
-    const deleteTags = useMutation<Return,any, string | undefined, any>({
+    const deleteTags = useMutation<any,any, string | undefined, any>({
         mutationFn : (id) =>{
             return fetcher({
                 method : 'DELETE',
@@ -158,27 +162,20 @@ const TourEditPage = () =>{
 
     const onSubmitHandler = () =>{
         const delPromiseList = [deleteInfos,deleteTags];
-        let delRequests : (Promise<Return> | undefined)[] = delPromiseList.map(promise=> promise.mutateAsync(id)) 
+        let delRequests : (Promise<any> | undefined)[] = delPromiseList.map(promise=> promise.mutateAsync(id)) 
         const putPromiseList = [putRoadmap, postInfo, postTag]
         Promise.all(delRequests)
         .then((values)=>{
-            values.map(value =>{
-                if(!value?.success){
-                    alert(value?.msg);
-                    return;
-                }
-            })
+            
         }).then(()=>{
             
             // putRoadmap.mutate(id);
             let putRequests : (Promise<Return>)[] = putPromiseList.map(promise => promise.mutateAsync(id));
             Promise.all(putRequests)
             .then((values)=>{
-                values.map(value=>{
-                    if(!value?.success){
-                        alert(value?.msg);
-                        return;
-                    }
+                getQueryClient().invalidateQueries(QueryKeys.TOURS,{
+                    exact : false,
+                    refetchInactive : true
                 })
             }).catch((error)=> {
                 throw error

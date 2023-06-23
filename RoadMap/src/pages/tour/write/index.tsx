@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Info, PostInfo, Return, TourDetail } from "../../../type";
+import { Info, PostInfo, Return, TourDetail, TagType } from "../../../type";
 import CommonButton from "../../../components/common/button";
 import '../../css/write.css';
 import Tag from "../../../components/tour/tag";
@@ -20,7 +20,7 @@ const TourWritePage = () =>{
     const [roadmap, setRoadmap] = useState<Info[]>([]);
     const [content, setContent] = useState<string>("");
 
-    const postInfo = useMutation<Return,any,string,any>({
+    const postInfo = useMutation<any,any,string,any>({
         mutationFn : (id : string)=>{
             let postData : PostInfo[] = [];
             let cp = [...roadmap];
@@ -38,38 +38,40 @@ const TourWritePage = () =>{
             return fetcher({
                 method : 'POST',
                 path : `tour/${id}/info`,
-                body : {
-                    infos : postData
-                }
+                body : postData
             })
         },
         onSuccess : (data, variable, ctx)=>{
             
         },
         onError : (error, variable) =>{
-            alert("서버 오류로 인해 로드맵 데이터가 저장되지 못했습니다.")
+            
+            alert("오류로 인해 로드맵 데이터가 저장되지 못했습니다.")
         }
     })
 
-    const postTag = useMutation<Return,any,string,any>({
+    const postTag = useMutation<any,any,string,any>({
         mutationFn : (id : string) =>{
+            let tags : TagType[] = tagList.map((tag)=>{
+                return {
+                    tag
+                }
+            });
             return fetcher({
                 method : 'POST',
                 path : `tour/${id}/tag`,
-                body : {
-                    tags : tagList
-                }
+                body : tags
             })
         },
         onSuccess : (_data, _variable, _ctx)=>{
            
         },
         onError : (_error) =>{
-            alert("서버 오류로 인해 태그 데이터가 저장되지 못했습니다.")
+            alert("오류로 인해 태그 데이터가 저장되지 못했습니다.")
         }
     })
 
-    const post = useMutation<Return>(
+    const post = useMutation(
         ()=> fetcher({
                 method : 'POST',
                 path : 'tour/write',
@@ -81,22 +83,20 @@ const TourWritePage = () =>{
         {
 
         onSuccess : (data)=>{
-            if(!data.id){
+            if(!data){
                 return;
             }
+            
             let promiseList = [postTag, postInfo];
-            let requests : Promise<Return>[]  = promiseList.map(post=>
-                post.mutateAsync(data?.id)
+            let requests : Promise<any>[]  = promiseList.map(post=>
+                post.mutateAsync(data)
             )
             
             
             Promise.all(requests)
             .then((values)=>{
                 values.map(value =>{
-                    if(!value.success){
-                        alert(value.msg);
-                        return;
-                    }
+                    console.log(value);
                 })
                 
             }).then(()=>
@@ -112,7 +112,7 @@ const TourWritePage = () =>{
         },
         onError : ()=>{
             alert("서버 오류로 인해 본문 내용이 저장되지 못했습니다.")
-        }
+            }
         }
     )
     
@@ -156,7 +156,7 @@ const TourWritePage = () =>{
         <div className="writeFrame flexCol">
             <div className="flexCol elemGap">
                 <div className="elemTitle">제목</div>
-                <input value={elemTitle} onChange={(e)=>{onElemTitleChangeHandler(e)}} type="text" className="border" placeholder="제목을 입력해주세요"></input>
+                <input value={elemTitle} onChange={(e)=>{onElemTitleChangeHandler(e)}} type="text" className="border" placeholder="제목을 입력해주세요" required></input>
             </div>
             <div className="flexCol elemGap">
                 <div className="flexCol elemGap">
@@ -188,6 +188,7 @@ const TourWritePage = () =>{
                 <div className="writeButtonFrame flexRow writerGap">
                     <CommonButton title={"취소"} style={"reject border"}/>
                     <CommonButton handler={onSubmitHandler} title={"등록"} style={"submit"}/>
+                    <CommonButton handler={onSubmitHandler} title={"TEST"} style={"submit"}/>
                 </div>
             </div>
         </div>

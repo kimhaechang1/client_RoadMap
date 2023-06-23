@@ -27,7 +27,7 @@ export type TourDetail = {
     view : number,
     title : string,
     infos : Info[],
-    tags : string[],
+    tags : TagType[],
     content : string,
     comments : Comment[]
 }
@@ -57,4 +57,8 @@ export type Return = {
     success : boolean,
     id : string,
     msg : string
+}
+
+export type TagType = {
+    tag : string,
 }

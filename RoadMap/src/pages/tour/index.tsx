@@ -17,8 +17,11 @@ const TourPage = () =>{
             }
         }),
         {
+            staleTime : 1000* 10,
+            cacheTime : 1000*2,
             getNextPageParam : (lastPage, allPage) =>{
-                return allPage[0].length * (allPage.length)
+                //return allPage[0].length * (allPage.length)
+                return lastPage.at(-1)?.roadmapId;
             }
         }
     )
