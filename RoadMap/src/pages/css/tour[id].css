@@ -116,6 +116,11 @@
     flex-direction: column;
     gap:30px;
 }
+.commentWriteArea{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 @media (max-width: 428px){
     .contentViewFrame {
         min-width: 0px;

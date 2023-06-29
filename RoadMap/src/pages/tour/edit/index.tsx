@@ -7,7 +7,7 @@ import RoadElement from "../../../components/tour/editableRoad";
 import ImageButton from "../../../components/common/ImageButton";
 import { useMutation, useQuery } from "react-query";
 import { QueryKeys, fetcher, getQueryClient } from "../../../hooks/queryClient";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, redirect } from "react-router-dom";
 
 const TourEditPage = () =>{
     
@@ -144,7 +144,7 @@ const TourEditPage = () =>{
             })
         }, 
         onError : ()=>{
-            alert("삭제 수행도중 에러1가 발생하였습니다.");
+            alert("삭제 수행도중 에러가 발생하였습니다.");
         }
     })
 
@@ -156,7 +156,7 @@ const TourEditPage = () =>{
             })
         }, 
         onError : ()=>{
-            alert("삭제 수행도중 에러2가 발생하였습니다.");
+            alert("삭제 수행도중 에러가 발생하였습니다.");
         }
     })
 
@@ -165,18 +165,15 @@ const TourEditPage = () =>{
         let delRequests : (Promise<any> | undefined)[] = delPromiseList.map(promise=> promise.mutateAsync(id)) 
         const putPromiseList = [putRoadmap, postInfo, postTag]
         Promise.all(delRequests)
-        .then((values)=>{
-            
-        }).then(()=>{
-            
-            // putRoadmap.mutate(id);
+       .then(()=>{
             let putRequests : (Promise<Return>)[] = putPromiseList.map(promise => promise.mutateAsync(id));
             Promise.all(putRequests)
-            .then((values)=>{
+            .then(()=>{
                 getQueryClient().invalidateQueries(QueryKeys.TOURS,{
                     exact : false,
                     refetchInactive : true
                 })
+                navigate('/tour');
             }).catch((error)=> {
                 throw error
             })
@@ -184,6 +181,9 @@ const TourEditPage = () =>{
         }).catch((error)=>{
             throw error;
         })
+    }
+    const onCancleHandler = () =>{
+        navigate(`/tour/${id}`)
     }
 
     return (
@@ -220,7 +220,7 @@ const TourEditPage = () =>{
                     <textarea value={content} onChange={(e)=>{onContentChangeHandler(e)}} className="addtionalCtx border" placeholder="내용을 입력해주세요"></textarea>
                 </div>
                 <div className="writeButtonFrame flexRow writerGap">
-                    <CommonButton title={"취소"} style={"reject border"}/>
+                    <CommonButton handler={onCancleHandler} title={"취소"} style={"reject border"}/>
                     <CommonButton handler={onSubmitHandler} title={"등록"} style={"submit"}/>
                 </div>
             </div>

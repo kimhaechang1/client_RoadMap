@@ -21,12 +21,14 @@
 }
 
 .reject{
+    cursor: pointer;
     padding: 13px 42px;
     font-family: 'thin';
     font-size: 20px;
     background-color: #FFFFFF;
 }
 .submit{
+    cursor: pointer;
     border-radius: 10px;
     border: none;
     padding: 13px 42px;
@@ -35,6 +37,7 @@
     background-color: #E6F4F1;
 }
 .circleButton{
+    cursor: pointer;
     font-family: 'bold';
     border-radius: 50%;
     padding: 13px;
@@ -45,6 +48,7 @@
     scroll-behavior: smooth;
 }
 .goTop{
+    cursor: pointer;
     position: fixed;
     bottom: 150px;
 }

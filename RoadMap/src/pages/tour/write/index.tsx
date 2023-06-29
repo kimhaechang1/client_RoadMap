@@ -32,9 +32,7 @@ const TourWritePage = () =>{
                     content : data.content
                 })
             })
-            // cp.map((r)=>
-            //     r.date = r.date.year;
-            // )
+            
             return fetcher({
                 method : 'POST',
                 path : `tour/${id}/info`,
@@ -94,17 +92,14 @@ const TourWritePage = () =>{
             
             
             Promise.all(requests)
-            .then((values)=>{
-                values.map(value =>{
-                    console.log(value);
-                })
-                
-            }).then(()=>
+            .then(()=>{
                 getQueryClient().invalidateQueries(QueryKeys.TOURS,{
                     exact : false,
                     refetchInactive : true
                 })
-            )
+                navigate("/tour")
+                
+            })
             .catch((error)=>{
                 throw error;
             })

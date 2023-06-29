@@ -52,6 +52,7 @@ export type Comment= {
     date : string,
     content : string,
 }
+export type CommentDatas = Partial<Comment>
 
 export type Return = {
     success : boolean,

@@ -1,4 +1,4 @@
-import {useParams, useNavigate, Link} from 'react-router-dom';
+import {useParams, useNavigate, Link, redirect} from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import CommonButton from '../../../components/common/button';
 import Comment from '../../../components/tour/comment';
@@ -9,18 +9,41 @@ import Tag from '../../../components/tour/tag';
 import Road from '../../../components/tour/road';
 import { useMutation, useQuery } from 'react-query';
 import { QueryKeys, fetcher, getQueryClient } from '../../../hooks/queryClient';
-import { TourDetail } from '../../../type';
+import { CommentDatas, TourDetail } from '../../../type';
 
 
 const TourItemPage = () =>{
     const { id } = useParams();
     const navigate = useNavigate();
-
     useEffect(()=>{
         if(!id?.match(/[0-9]/g)){
             navigate('/404');
         }
     },[id])
+    
+    const [commentData, setCommentData] = useState<string>("");
+
+    
+    const postComment = useMutation({
+        mutationFn : ()=>fetcher({
+            method : 'POST',
+            path : `tour/${id}/comment`,
+            body : {
+                content : commentData
+            }
+        }),
+        onSuccess : (data,variable,context) =>{
+            getQueryClient().invalidateQueries(QueryKeys.TOURS,{
+                refetchInactive : true
+            })
+            redirect(`/tour/${id}`);
+            setCommentData("");
+        },
+        onError : ()=>{
+            alert('에러가 발생하여 댓글이 저장되지 못했습니다.')
+        }
+
+    })
 
     const deleteQuery = useMutation(()=>fetcher({
         method : 'DELETE',
@@ -30,31 +53,40 @@ const TourItemPage = () =>{
             getQueryClient().invalidateQueries(QueryKeys.TOURS,{
                 refetchInactive : true
             })
-            
+            navigate(`/tour`)   
+        },
+        onError : ()=>{
+            alert('삭제도중 에러가 발생하였습니다.')
         }
     })
-    const onDeleteHandler = () =>{
-        deleteQuery.mutate();
-    }
-
-    const {data, isSuccess, isLoading}= useQuery<TourDetail>([QueryKeys.TOURS, id]
-        ,()=> fetcher({
+    const {data, isLoading}= useQuery<TourDetail>({
+        queryKey : [QueryKeys.TOURS, id],
+        queryFn :()=> fetcher({
             method : 'GET',
             path : `tour/${id}`
         }),
-        {
-            cacheTime : 0
-        })
-    if(isSuccess){
-        console.log(data)
+        onError : ()=>{
+            alert('글을 불러오는 도중 에러가 발생하였습니다.')
+            navigate('/tour');
+        }
+        
+    })
+    if(!data || isLoading){
+        return <div>...Loading</div>
     }
-    if(isLoading || !data){
-        return (
-            <div>...Loading</div>
-        )
+    const onDeleteHandler = () =>{
+        if(confirm("해당글을 삭제하시겠습니까?")){
+            deleteQuery.mutate();
+        }
+        
+    }
+    const onCommentSubmitHandler = () =>{
+        if(commentData.length > 0){
+            postComment.mutate()
+        }
+        
     }
 
-    
     return (
         <div className="contentViewFrame">
             <div className="contentViewTitleGroup">
@@ -108,13 +140,15 @@ const TourItemPage = () =>{
                 <div className="contentViewComment">
                     <div id="comment_write" className="contentViewCommentNumber">{data.comments.length}개의 댓글</div>
                     <div className="contentViewCommentWrite">
-                        <div className="contentViewCommentWriteMain">
-                            <img className="profileIcon" src="/profile.png"></img>
-                            <textarea></textarea>
-                        </div>
-                        <div className="buttonFrame">
-                            <CommonButton imgSrc={"/write.png"} title={"작성하기"} />
-                        </div>
+                        <form className="commentWriteArea">
+                            <div className="contentViewCommentWriteMain">
+                                <img className="profileIcon" src="/profile.png"></img>
+                                <textarea value={commentData} onChange={(e)=>{setCommentData(e.target.value)}} required></textarea>
+                            </div>
+                            <div className="buttonFrame">
+                                <CommonButton imgSrc={"/write.png"} title={"작성하기"} handler={onCommentSubmitHandler} />
+                            </div>
+                        </form>
                     </div>
                 </div>
                 {data.comments.length > 0 ? <div className="contentViewCommentMain">

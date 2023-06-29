@@ -10,7 +10,7 @@ const Tag = ({tagName, tagList = [], isDel = true, index, setTagList} : {tagName
     return(
         <div className="tag flexRow">
             {tagName}
-            {isDel ? <img onClick={onDeleteHandler} src="/gob.png"></img> : null}
+            {isDel ? <img onClick={onDeleteHandler} style={{cursor:'pointer'}} src="/gob.png"></img> : null}
         </div>
     )
 }
