@@ -24,7 +24,10 @@ const TourEditPage = () =>{
             navigate('/404');
         }
     },[id])
-
+    useEffect(()=>{
+        const cookieData = document.cookie;
+        console.log(cookieData);
+    },[])
     const {data}= useQuery<TourDetail>([QueryKeys.TOURS, id], ()=>fetcher({
         method: 'GET',
         path:`tour/${id}`,

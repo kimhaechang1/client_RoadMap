@@ -1,5 +1,5 @@
 import {useParams, useNavigate, Link, redirect} from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import CommonButton from '../../../components/common/button';
 import Comment from '../../../components/tour/comment';
 import '../../css/tour[id].css';
@@ -10,17 +10,28 @@ import Road from '../../../components/tour/road';
 import { useMutation, useQuery } from 'react-query';
 import { QueryKeys, fetcher, getQueryClient } from '../../../hooks/queryClient';
 import { CommentDatas, TourDetail } from '../../../type';
+import { CurrentUserAuthContext } from '../../CurrentUserAuthContext';
+import { useIsLogin } from '../../../hooks/useIsLogin';
 
 
 const TourItemPage = () =>{
+   
     const { id } = useParams();
     const navigate = useNavigate();
+    const context = useContext(CurrentUserAuthContext);
+    const [loginUserId , setLoginUserId] = useState<string>("");
+
     useEffect(()=>{
         if(!id?.match(/[0-9]/g)){
             navigate('/404');
         }
     },[id])
-    
+
+    useEffect(()=>{
+        const cookieData = document.cookie;
+        setLoginUserId(cookieData.split("=")[1]);
+    },[])
+
     const [commentData, setCommentData] = useState<string>("");
 
     
@@ -30,13 +41,10 @@ const TourItemPage = () =>{
             path : `tour/${id}/comment`,
             body : {
                 content : commentData
-            }
+            },
+            auth : context?.auth 
         }),
         onSuccess : (data,variable,context) =>{
-            getQueryClient().invalidateQueries(QueryKeys.TOURS,{
-                refetchInactive : true
-            })
-            redirect(`/tour/${id}`);
             setCommentData("");
         },
         onError : ()=>{
@@ -47,7 +55,8 @@ const TourItemPage = () =>{
 
     const deleteQuery = useMutation(()=>fetcher({
         method : 'DELETE',
-        path : `tour/${id}`
+        path : `tour/${id}`,
+        auth : context?.auth
     }),{
         onSuccess : ()=>{
             getQueryClient().invalidateQueries(QueryKeys.TOURS,{
@@ -68,8 +77,7 @@ const TourItemPage = () =>{
         onError : ()=>{
             alert('글을 불러오는 도중 에러가 발생하였습니다.')
             navigate('/tour');
-        }
-        
+        },
     })
     if(!data || isLoading){
         return <div>...Loading</div>
@@ -95,8 +103,15 @@ const TourItemPage = () =>{
                     <div className="flexRow tourViewNick_day_buttons ">
                         <div className="tourViewNick_day">{data.nickName}·{data.date}</div>
                         <div className="tourViewButtonFrame flexRow writerGap">
+                            {
+                            loginUserId == data.userId ?
+                            <>
                             <CommonButton handler={onDeleteHandler} title={"삭제"} style={"reject border"} />
                             <Link to={`/tour/edit/${id}`}><CommonButton title={"수정"} style={"submit"} /></Link>
+                            </>
+                            :
+                            ""
+                            }
                         </div>
                     </div>
                 </div>
@@ -136,7 +151,9 @@ const TourItemPage = () =>{
                     })}
                 </div>
             </div> : null}
+            
             <div className="contentViewCommentFrame">
+            { loginUserId === "" ?
                 <div className="contentViewComment">
                     <div id="comment_write" className="contentViewCommentNumber">{data.comments.length}개의 댓글</div>
                     <div className="contentViewCommentWrite">
@@ -150,12 +167,13 @@ const TourItemPage = () =>{
                             </div>
                         </form>
                     </div>
-                </div>
+                </div> 
+                : ""}
                 {data.comments.length > 0 ? <div className="contentViewCommentMain">
                     {data.comments.map((comment, i) => {
                         return (
                             <div key={i}>
-                                <Comment {...comment} key={comment.commentId}/>
+                                <Comment commentId={comment.commentId} content={comment.content} date={comment.date} nickName={comment.nickName} isMyComment={comment.userId==loginUserId} key={comment.commentId} />
                             </div>
                         )
                     })}

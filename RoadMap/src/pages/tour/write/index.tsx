@@ -1,24 +1,39 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { redirect, useNavigate } from "react-router-dom";
 import { Info, PostInfo, Return, TourDetail, TagType } from "../../../type";
 import CommonButton from "../../../components/common/button";
 import '../../css/write.css';
 import Tag from "../../../components/tour/tag";
 import RoadElement from "../../../components/tour/editableRoad";
 import ImageButton from "../../../components/common/ImageButton";
-import { QueryKey, useMutation } from "react-query";
+import { QueryKey, useQuery, useMutation } from "react-query";
 import { QueryKeys, fetcher } from "../../../hooks/queryClient";
 import { getQueryClient } from "../../../hooks/queryClient";
+import { CurrentUserAuthContext } from "../../CurrentUserAuthContext";
+import { useIsLogin } from "../../../hooks/useIsLogin";
 
 const TourWritePage = () =>{
 
     const navigate = useNavigate();
-
+    const context = useContext(CurrentUserAuthContext);
     const [roadmapId, setRoadmapId] = useState<string | undefined>("");
     const [elemTitle, setElemTitle] = useState<string>("");
     const [tagList, setTagList] = useState<string[]>([]);
     const [roadmap, setRoadmap] = useState<Info[]>([]);
     const [content, setContent] = useState<string>("");
+
+    useEffect(()=>{
+        const result = useIsLogin();
+        result.then((data)=>{
+            console.log("쓰기인데용")
+            if(!data.isLogin){
+                alert(data.msg);
+                navigate("/login")
+            }else{
+                context?.setAuth(data.auth);
+            }
+        })
+    },[])
 
     const postInfo = useMutation<any,any,string,any>({
         mutationFn : (id : string)=>{
@@ -36,7 +51,8 @@ const TourWritePage = () =>{
             return fetcher({
                 method : 'POST',
                 path : `tour/${id}/info`,
-                body : postData
+                body : postData,
+                auth : context?.auth
             })
         },
         onSuccess : (data, variable, ctx)=>{
@@ -58,7 +74,8 @@ const TourWritePage = () =>{
             return fetcher({
                 method : 'POST',
                 path : `tour/${id}/tag`,
-                body : tags
+                body : tags,
+                auth : context?.auth
             })
         },
         onSuccess : (_data, _variable, _ctx)=>{
@@ -76,7 +93,8 @@ const TourWritePage = () =>{
                 body : {
                     title : elemTitle,
                     content : content
-                }
+                },
+                auth : context?.auth
         }),
         {
 
@@ -87,7 +105,7 @@ const TourWritePage = () =>{
             
             let promiseList = [postTag, postInfo];
             let requests : Promise<any>[]  = promiseList.map(post=>
-                post.mutateAsync(data)
+                post.mutateAsync(data.roadmapId)
             )
             
             
@@ -106,7 +124,7 @@ const TourWritePage = () =>{
             
         },
         onError : ()=>{
-            alert("서버 오류로 인해 본문 내용이 저장되지 못했습니다.")
+            alert("오류로 인해 본문 내용이 저장되지 못했습니다.")
             }
         }
     )
@@ -183,7 +201,6 @@ const TourWritePage = () =>{
                 <div className="writeButtonFrame flexRow writerGap">
                     <CommonButton title={"취소"} style={"reject border"}/>
                     <CommonButton handler={onSubmitHandler} title={"등록"} style={"submit"}/>
-                    <CommonButton handler={onSubmitHandler} title={"TEST"} style={"submit"}/>
                 </div>
             </div>
         </div>

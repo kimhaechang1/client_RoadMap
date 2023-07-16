@@ -9,6 +9,8 @@ import TourItemPage from './pages/tour/[id]';
 import TourWritePage from './pages/tour/write';
 import NotFoundPage from './pages/NotFound';
 import MyPageLayout from './pages/mypage';
+import KakaoAuth from './pages/login/kakaoAuth';
+import RegisterPage from './pages/login/register';
 
 export const routes = [
     {
@@ -24,7 +26,9 @@ export const routes = [
             {path : '/tour', element : <TourPage/>, index:true},
             {path : '/tour/:id', element : <TourItemPage/>},
             {path : '/tour/write', element : <TourWritePage/>, index:true},
-            {path : '*', element : <NotFoundPage/>, index: true}
+            {path : '/login/oauth2/code/kakao', element : <KakaoAuth/>},
+            {path : '*', element : <NotFoundPage/>, index: true},
+            {path : '/login/register', element : <RegisterPage/>}
         ]
     },
     

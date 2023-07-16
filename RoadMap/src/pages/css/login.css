@@ -1,0 +1,44 @@
+.loginTitleGroup{
+    display:flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    gap: 40px
+}
+.loginTitle{
+    font-size: 50px;
+    font-family: 'bold'
+}
+.loginSubtitle{
+    font-size: 15px;
+    font-family: 'thin';
+}
+.loginGap{
+    gap:80px;
+}
+.SnsLoginGroup{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+.SnsTitle{
+    font-family : 'thin';
+    font-size : 15px;
+}
+.KakaoLoginBtn{
+    height: 45px;
+    cursor:pointer;
+}
+
+@media (min-width : 635px){
+    .loginTitle{
+        font-size : 70px
+    }
+    .SnsTitle{
+        font-size : 20px;
+    }
+    .loginSubtitle{
+        font-size: 20px;
+    }
+}

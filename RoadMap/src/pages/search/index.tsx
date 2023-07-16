@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import CommonButton from '../../components/common/button';
 import Content from '../../components/common/content';
 import Contents from '../../components/common/contents';
@@ -5,6 +6,10 @@ import QueryElement from '../../components/search/query';
 import '../css/search.css';
 
 const SearchPage = ()=>{
+    useEffect(()=>{
+        const cookieData = document.cookie;
+        console.log(cookieData);
+      },[])
     return(
         <div className="flexCol searchMainFrame">
             <div className="searchBodyFrame flexCol sectionGap">

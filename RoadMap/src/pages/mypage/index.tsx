@@ -4,6 +4,10 @@ import menuList from "./menuList";
 import '../css/mypage.css';
 
 const MyPageLayout = () =>{
+    useEffect(()=>{
+        const cookieData = document.cookie;
+        console.log(cookieData);
+      },[])
     const { menuId } = useParams(); 
     const navigate = useNavigate();
     const [component, setComponent] = useState<ReactElement>()

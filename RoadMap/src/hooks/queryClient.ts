@@ -1,5 +1,4 @@
-import { QueryClient, useMutation } from "react-query";
-import { Return } from "../type";
+import { QueryClient } from "react-query";
 
 export const getQueryClient = (()=>{
     let client : null | QueryClient = null;
@@ -24,26 +23,31 @@ type AnyObj = {
 }
 
 //const BASE_URL = "http://localhost:1234/";
-const BASE_URL = "http://localhost:8080/";
+export const BASE_URL = "http://localhost:8080/";
 export const fetcher = async({
     method,
     path,
     body,
-    params
+    params,
+    auth=""
 }:{
     method : 'GET' | 'POST' | 'DELETE' | 'PUT',
     path : string,
     body? : AnyObj,
-    params? : AnyObj
+    params? : AnyObj,
+    auth? : string
 }) =>{
     try{
         let url = `${BASE_URL}${path}`;
-        const fetchOption : RequestInit = {
+        const fetchOption : RequestInit=  {
             method,
             headers : {
                 'Content-Type' : 'application/json',
-                'Access-Control-Allow-Origin' : BASE_URL
+                'Access-Control-Allow-Origin' : BASE_URL,
+                'Authorization' : `Bearer ${auth}`
             },
+            credentials : "include"
+
         }
         if(params){
             const URLParams = new URLSearchParams(params);
@@ -66,5 +70,6 @@ export const fetcher = async({
 
 export const QueryKeys = {
     TOURS : 'TOURS',
-    MAIN : 'MAIN'
+    MAIN : 'MAIN',
+    KAKAO_AUTH : 'KAKAO'
 }

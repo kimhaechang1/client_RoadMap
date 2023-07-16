@@ -3,13 +3,22 @@ import TopTenBooks from "../../components/main/topTenBooks";
 import { useQuery } from "react-query";
 import { QueryKeys, fetcher } from "../../hooks/queryClient";
 import { Main } from "../../type";
+import { silentAuth } from "../../hooks/useSilentAuth";
+import { redirect } from "react-router-dom";
+import { useContext } from "react";
+import { CurrentUserAuthContext } from "../CurrentUserAuthContext";
+
 const MainPage = () =>{
+    
+    const context = useContext(CurrentUserAuthContext);
+    
     const {data, isSuccess,isLoading} = useQuery<Main>(QueryKeys.MAIN
     ,() =>fetcher({
         method :'GET',
         path : 'main',
     }),{
-        cacheTime : 0
+        cacheTime : 0,
+        retry : 0
     })
     if(isSuccess){
         console.log(data);

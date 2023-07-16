@@ -15,6 +15,7 @@
     font-family: 'thin';
 }
 .commentTitleHead{
+    gap:10px;
     display: flex;
     flex-direction: row;
 }
@@ -28,6 +29,9 @@
     font-size: 13px;
 }
 .commentNick_day{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     font-size: 15px;
 }
 .commentContextGroup{

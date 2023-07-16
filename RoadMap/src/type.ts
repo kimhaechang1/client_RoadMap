@@ -29,7 +29,8 @@ export type TourDetail = {
     infos : Info[],
     tags : TagType[],
     content : string,
-    comments : Comment[]
+    comments : Comment[],
+    userId : string
 }
 export type PostInfo = {
     date : string,
@@ -51,6 +52,14 @@ export type Comment= {
     nickName : string,
     date : string,
     content : string,
+    userId : string
+}
+export type CommentClient= {
+    commentId : string,
+    nickName : string,
+    date : string,
+    content : string,
+    isMyComment : boolean
 }
 export type CommentDatas = Partial<Comment>
 
