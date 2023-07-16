@@ -76,8 +76,12 @@ const TourItemPage = () =>{
         }),
         onError : ()=>{
             alert('글을 불러오는 도중 에러가 발생하였습니다.')
+            
             navigate('/tour');
         },
+        onSuccess : ()=>{
+            console.log(loginUserId);
+        }
     })
     if(!data || isLoading){
         return <div>...Loading</div>
@@ -153,7 +157,7 @@ const TourItemPage = () =>{
             </div> : null}
             
             <div className="contentViewCommentFrame">
-            { loginUserId === "" ?
+            { loginUserId ?
                 <div className="contentViewComment">
                     <div id="comment_write" className="contentViewCommentNumber">{data.comments.length}개의 댓글</div>
                     <div className="contentViewCommentWrite">

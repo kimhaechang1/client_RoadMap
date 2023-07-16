@@ -1,4 +1,4 @@
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import '../css/profile.css';
 import { useContext, useState } from 'react';
 import { useMutation } from 'react-query';
@@ -7,6 +7,7 @@ import CommonButton from '../../components/common/button';
 import { CurrentUserAuthContext } from '../CurrentUserAuthContext';
 
 const Register = () =>{
+    const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const [major, setMajor] = useState<string>("")
     const [nickname, setNickname] = useState<string>("")
@@ -35,6 +36,8 @@ const Register = () =>{
             // todo : context API에 auth값 넣기
             if(!context) return;
             context.setAuth(data.headers.Authorization[0]);
+            navigate('/')
+            location.reload();
         },
         onError : ()=>{
             alert("에러가 발생하였습니다.")

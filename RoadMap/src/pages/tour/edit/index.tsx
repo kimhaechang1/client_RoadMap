@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Info, Return, TourDetail, PostInfo, TagType } from "../../../type";
 import CommonButton from "../../../components/common/button";
 import '../../css/write.css';
@@ -8,12 +8,14 @@ import ImageButton from "../../../components/common/ImageButton";
 import { useMutation, useQuery } from "react-query";
 import { QueryKeys, fetcher, getQueryClient } from "../../../hooks/queryClient";
 import { useParams, useNavigate, redirect } from "react-router-dom";
+import { useIsLogin } from "../../../hooks/useIsLogin";
+import { CurrentUserAuthContext } from "../../CurrentUserAuthContext";
 
 const TourEditPage = () =>{
     
     const { id } = useParams();
     const navigate = useNavigate();
-
+    const context = useContext(CurrentUserAuthContext);
     const [elemTitle, setElemTitle] = useState<string>("");
     const [tagList, setTagList] = useState<string[]>([]);
     const [roadmap, setRoadmap] = useState<Info[]>([]);
@@ -24,10 +26,20 @@ const TourEditPage = () =>{
             navigate('/404');
         }
     },[id])
+
     useEffect(()=>{
-        const cookieData = document.cookie;
-        console.log(cookieData);
+        const result = useIsLogin();
+        result.then((data)=>{
+            console.log("쓰기인데용")
+            if(!data.isLogin){
+                alert(data.msg);
+                navigate("/login")
+            }else{
+                context?.setAuth(data.auth);
+            }
+        })
     },[])
+
     const {data}= useQuery<TourDetail>([QueryKeys.TOURS, id], ()=>fetcher({
         method: 'GET',
         path:`tour/${id}`,
@@ -90,7 +102,8 @@ const TourEditPage = () =>{
                 body : {
                     title : elemTitle,
                     content : content
-                }
+                },
+                auth : context?.auth
             })
         },
         onError : ()=>{
@@ -113,7 +126,8 @@ const TourEditPage = () =>{
             return fetcher({
                 method : 'POST',
                 path : `tour/${id}/info`,
-                body : postData
+                body : postData,
+                auth : context?.auth
             })
         },
         onError : (error, variable) =>{
@@ -131,7 +145,8 @@ const TourEditPage = () =>{
             return fetcher({
                 method : 'POST',
                 path : `tour/${id}/tag`,
-                body : tags
+                body : tags,
+                auth : context?.auth
             })
         },
         onError : (_error) =>{
@@ -143,7 +158,8 @@ const TourEditPage = () =>{
         mutationFn : (id) =>{
             return fetcher({
                 method : 'DELETE',
-                path : `tour/${id}/info`
+                path : `tour/${id}/info`,
+                auth : context?.auth
             })
         }, 
         onError : ()=>{
@@ -155,7 +171,8 @@ const TourEditPage = () =>{
         mutationFn : (id) =>{
             return fetcher({
                 method : 'DELETE',
-                path : `tour/${id}/tag`
+                path : `tour/${id}/tag`,
+                auth : context?.auth
             })
         }, 
         onError : ()=>{
